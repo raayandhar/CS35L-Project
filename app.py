@@ -15,6 +15,7 @@ import base64
 import numpy as np
 from waitress import serve
 import atexit
+from dotenv import load_dotenv
 
 #sshpassword = os.environ.get("FLASK_APP_PASSWORD")
 
@@ -33,12 +34,15 @@ def run_inference(input):
     return results
 
 """
+load_dotenv()
 
 app = Flask(__name__)
 
 ssh_client = paramiko.SSHClient()
 
 def connect_to_server():
+    key = os.environ.get("LINUX_PASSWORD")
+    print(key)
     try:
         print("Connecting to server...")
         ssh_client.set_missing_host_key_policy(paramiko.AutoAddPolicy())
@@ -46,13 +50,14 @@ def connect_to_server():
         hostname = '128.97.181.141'
         username = 'Administrator'
 
-        ssh_client.connect(hostname=hostname, username=username, password=os.getenv("LINUX_PASSWORD"))
+        ssh_client.connect(hostname=hostname, username=username, password=key)
         return True
     except Exception as e:
-        print(e)
+        print("error", e)
         return False
     
 def disconnect_from_server():
+    
     print("Disconnecting from server...")
     ssh_client.close()
 
@@ -65,7 +70,7 @@ def index():
         prompt = request.form['image']
 
         script_path = r"D:\downloads\ComfyUI_windows_portable_nvidia\ComfyUI_windows_portable\ComfyUI\custom_nodes\ComfyUI-SaveAsScript\ale_model_script.py"
-
+        
         command = f'python "{script_path}" "{prompt}"'
 
         try:
