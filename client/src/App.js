@@ -1,35 +1,20 @@
 import logo from './logo.svg';
 import './App.css';
-import { useState } from 'react';
+import {BrowserRouter as Router, Routes, Route} from 'react-router-dom';
+import Home from './components/home.jsx';
+import About from './components/about.jsx';
+import Login from './components/login.jsx';
+import Navbar from './components/navbar.jsx';
 function App() {
-  const [backendOut,setBackendOut] = useState('');
-
-  function callBackend() {
-    fetch('http://127.0.0.1:5000/').then(res => res.json()).then(res => setBackendOut(res["message"]));
-  }
-
   return (
-    <div className="App">
-      <div className="bg-blue-500 h-screen w-full align-middle text-center space-y-20"> 
-        <div className="text-4xl pt-20">
-          Flux diffision image generator
-        </div>
-        <button onClick={callBackend} className="bg-white h-20 w-40 rounded-xl">
-          Click me 
-        </button>
-        <div>
-          <div className="text-4xl">
-            Backend Route output:
-
-          </div>
-          <div className="text-4xl">
-          {backendOut }
-          </div>
-        </div>
-        
-      </div>
-      
-    </div>
+    <Router>
+      <Navbar />
+      <Routes>
+        <Route path="/" element={<Home />} />
+        <Route path="/login" element={<Login />} />
+        <Route path="/about" element={<About />} />
+      </Routes>
+    </Router>
   );
 }
 
