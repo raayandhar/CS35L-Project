@@ -1,9 +1,42 @@
-from flask import Flask, jsonify
+from flask import Flask, jsonify, request
 from flask_cors import CORS
 
 app = Flask(__name__)
 
 CORS(app)
+
+# temporary local login DB
+logins = {
+    "kylecj21": 'password',
+    "AleHuerta" : 'IRunSlow',
+    "Smallberg" : 'I<3C++'
+}
+
+@app.route('/signup', methods=['POST'])
+def register():
+    data = request.get_json()
+    username = data.get('username')
+    password = data.get('password')
+
+    if username in logins:
+        return jsonify({"message": "Username taken", "status": 401}), 401
+    else:
+        logins[username] = password
+        return jsonify({"message": "Registration successful", "status": 200}), 200
+
+@app.route('/login', methods=['POST'])
+def login():
+    data = request.get_json()
+    username = data.get('username')
+    password = data.get('password')   
+    print(logins)
+    if username not in logins:
+        return jsonify({"message": "User not found", "status": 401}), 401
+    elif username in logins and logins[username] == password:
+        return jsonify({"message": "Login successful", "status": 200}), 200
+    else:
+        return jsonify({"message": "Login failed", "status": 401}), 401
+
 
 @app.route('/')
 def home():
