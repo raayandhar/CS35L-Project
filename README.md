@@ -1,30 +1,27 @@
 # FluxDiffusionImageGen
-Full-Stack application with python + flask + pytorch backend, react + JS frontend
+Full-Stack application with python + flask + pytorch backend, react + JS frontend + tailwind CSS
 
 # Getting Started
-Currently, the project runs frontend and backend through Python, since we haven't setup react
+Currently, the project has basic react and flask implementation. You will need a seperate terminal to run server and client
 
-1. If first time with project, create a python virtual environment with the command (you might need to put Python3):
-``` Python -m venv venv ```
-2. Activate the venv
-``` source venv/bin/activate```
-3. Next, install the pip dependencys with the following command:
-``` pip install -r requirements.txt```
-4. Next, run the main.py:
-``` Python main.py```
+1. ```cd client```
+2. ```npm install```
+3. ```npm start```
 
-The Project should be running in the local url http://127.0.0.1:8889. The above instructions are for Mac, but you can google
-equivalent ones for Windows if needed. If you use python3, you might need to use pip3.
+In a seperate terminal:
 
-The current status is tentative, and will be changed to have a react frontend like the project spec indicates.
+1. ```cd server```
+2. ```python -m venv venv```
+3. ```source venv/bin/activate```
+4. ```pip install -r requirements.txt```
+5. ```python main.py```
 
-The backend image generation won't run yet, it will return an empty image, but you can confirm the project runs
+You can see the frontend in http://localhost:3000/ , and the backend at http://127.0.0.1:5000/
 
 # To Do:
-1. Incorporate React frontend
-2. Come up with frontend design
-3. Setup flask endpoints for backend
-4. Decide on Database option (SQLite, MongoDB, something else online)
-5. Login/Logout features
-6. 2 other features
-7. Ale + Kyle setup Image generation pipeline through backend
+1. Come up with frontend design
+2. Setup flask endpoints for backend
+3. Decide on Database option (SQLite, MongoDB, something else online)
+4. Login/Logout features
+5. 2 other features
+6. Ale + Kyle setup Image generation pipeline through backend
