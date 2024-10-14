@@ -1,10 +1,12 @@
 import React from 'react'
 import { useState } from 'react';
+import { useSnackbar } from 'notistack'
 const Home = () => {
   const [backendOut,setBackendOut] = useState('');
-
+  const { enqueueSnackbar } = useSnackbar();
   function callBackend() {
     fetch('http://127.0.0.1:5000/').then(res => res.json()).then(res => setBackendOut(res["message"]));
+    enqueueSnackbar('Backend call made', { variant: 'success', autoHideDuration: 3000 });
   }
     return (
         <div className="text-stone-600">
