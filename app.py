@@ -42,7 +42,6 @@ ssh_client = paramiko.SSHClient()
 
 def connect_to_server():
     key = os.environ.get("LINUX_PASSWORD")
-    print(key)
     try:
         print("Connecting to server...")
         ssh_client.set_missing_host_key_policy(paramiko.AutoAddPolicy())
@@ -114,6 +113,7 @@ mode = 'dev'
 
 if __name__ == "__main__": 
     if mode == 'dev':
+        """
         connect_to_server()
 
         script_path = r"D:\downloads\ComfyUI_windows_portable_nvidia\ComfyUI_windows_portable\ComfyUI\custom_nodes\ComfyUI-SaveAsScript\ale_model_script.py"
@@ -133,7 +133,7 @@ if __name__ == "__main__":
 
         except Exception as e:
             print("error", e)
-
+        """
         app.run(debug=True, use_reloader=False, port=8889)
     
     else:
