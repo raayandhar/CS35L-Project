@@ -3,7 +3,7 @@ import './App.css';
 import {BrowserRouter as Router, Routes, Route} from 'react-router-dom';
 import Home from './components/home.jsx';
 import About from './components/about.jsx';
-import Login from './components/login.jsx';
+import History from './components/history.jsx';
 import Navbar from './components/navbar.jsx';
 import { SnackbarProvider } from 'notistack';
 function App() {
@@ -13,7 +13,7 @@ function App() {
         <Navbar />
         <Routes>
           <Route path="/" element={<Home />} />
-          <Route path="/login" element={<Login />} />
+          <Route path="/history" element={<History />} />
           <Route path="/about" element={<About />} />
         </Routes>
       </Router>
