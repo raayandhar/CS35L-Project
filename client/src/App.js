@@ -2,9 +2,9 @@ import logo from './logo.svg';
 import './App.css';
 import {BrowserRouter as Router, Routes, Route} from 'react-router-dom';
 import Home from './components/home.jsx';
-import About from './components/about.jsx';
-import History from './components/history.jsx';
+import Gallery from './components/gallery.jsx';
 import Navbar from './components/navbar.jsx';
+import Profile from './components/profile.jsx';
 import { SnackbarProvider } from 'notistack';
 function App() {
   return (
@@ -13,8 +13,9 @@ function App() {
         <Navbar />
         <Routes>
           <Route path="/" element={<Home />} />
-          <Route path="/history" element={<History />} />
-          <Route path="/about" element={<About />} />
+          <Route path="/Gallery" element={<Gallery />} />
+          <Route path="/Profile" element={<Profile />} />
+
         </Routes>
       </Router>
     </SnackbarProvider>

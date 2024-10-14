@@ -1,11 +1,11 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-
+import Login from './login.jsx';
 const Navbar = () => {
   const links = [
     { path: "/", label: "Home" },
-    { path: "/about", label: "About" },
-    { path: "/history", label: "History" },
+    { path: "/gallery", label: "Gallery" },
+    { path: "/profile", label: "Profile" },
   ];
 
   return (
@@ -24,11 +24,7 @@ const Navbar = () => {
         </div>
         
         <li>
-          <Link to="/login">
-            <button className="bg-white text-stone-600 border-2 border-stone-600 h-full w-auto py-2 px-4 rounded-xl hover:bg-stone-600 hover:text-white transition duration-200 mr-4">
-              Login
-            </button>
-          </Link>
+          <Login/>
         </li>
       </ul>
     </nav>
