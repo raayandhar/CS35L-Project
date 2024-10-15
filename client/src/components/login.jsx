@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { setUser, clearUser } from '../store/reducers/userReducer';
 import { useSnackbar } from 'notistack';
@@ -13,7 +13,25 @@ const Login = () => {
     const [password, setPassword] = useState('');
     const [confirmPassword, setConfirmPassword] = useState('');
     const { enqueueSnackbar } = useSnackbar();
-
+    useEffect(() => {
+        const handleKeyDown = (event) => {
+            if (event.key === 'Escape' && showCanvas) {
+                toggleCanvas();
+            }
+            if (event.key === 'Enter' && showCanvas) {
+                if(isLogin){
+                    handleLogin();
+                }
+                else{
+                    handleSignup();
+                }
+            }
+        };
+        window.addEventListener('keydown', handleKeyDown);
+        return () => {
+            window.removeEventListener('keydown', handleKeyDown);
+        };
+    }, [showCanvas, isLogin, username, password, confirmPassword]);
     const handleLogin = () => {
         fetch('http://127.0.0.1:5000/login', {
             method: 'POST',
