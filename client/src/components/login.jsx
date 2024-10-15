@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { setUser, clearUser } from '../store/reducers/userReducer';
 import { useSnackbar } from 'notistack';
-import './switchmodes.css'; // Ensure this is correctly imported
+import './switchmodes.css'; 
 
 const Login = () => {
     const dispatch = useDispatch();
@@ -24,7 +24,7 @@ const Login = () => {
         })
         .then((res) => res.json())
         .then((res) => {
-            if (!res.success) {
+            if (res.status !== 200) {
                 enqueueSnackbar(res.message, { variant: 'error', autoHideDuration: 3000 });
             } else {
                 enqueueSnackbar('Login Successful', { variant: 'success', autoHideDuration: 3000 });
@@ -112,25 +112,25 @@ const Login = () => {
                                     placeholder="Username"
                                     value={username}
                                     onChange={(e) => setUsername(e.target.value)}
-                                    className="border border-gray-300 p-2 mb-2 w-full focus:border-emerald-200 focus:ring-0"
+                                    className="border border-gray-300 p-2 mb-2 w-full focus:border-emerald-400 outline-none rounded-md"
                                     />
                                 <input
                                     type="password"
                                     placeholder="Password"
                                     value={password}
                                     onChange={(e) => setPassword(e.target.value)}
-                                    className="border border-gray-300 p-2 mb-2 w-full"
+                                    className="border border-gray-300 p-2 mb-2 w-full focus:border-emerald-400 outline-none rounded-md"
                                 />
                                 <div className="flex space-x-4 mt-4">
                                     <button
                                         onClick={handleLogin}
-                                        className="bg-stone-600 text-white py-2 px-4 rounded-xl hover:bg-stone-700 transition duration-200"
+                                        className="bg-emerald-400 text-white py-2 px-4 rounded-xl hover:bg-emerald-600 transition duration-200"
                                     >
                                     Login
                                     </button>
                                     <button
                                         onClick={toggleCanvas}
-                                        className="bg-stone-600 text-white py-2 px-4 rounded-xl hover:bg-stone-700 transition duration-200"
+                                        className="bg-red-400 text-white py-2 px-4 rounded-xl hover:bg-red-600 transition duration-200"
                                     >
                                         Cancel
                                     </button>
@@ -150,32 +150,32 @@ const Login = () => {
                                     placeholder="Username"
                                     value={username}
                                     onChange={(e) => setUsername(e.target.value)}
-                                    className="border border-gray-300 p-2 mb-2 w-full"
+                                    className="border border-gray-300 p-2 mb-2 w-full focus:border-emerald-400 outline-none rounded-md"
                                 />
                                 <input
                                     type="password"
                                     placeholder="Password"
                                     value={password}
                                     onChange={(e) => setPassword(e.target.value)}
-                                    className="border border-gray-300 p-2 mb-2 w-full"
+                                    className="border border-gray-300 p-2 mb-2 w-full focus:border-emerald-400 outline-none rounded-md"
                                 />
                                 <input
                                     type="password"
                                     placeholder="Confirm Password"
                                     value={confirmPassword}
                                     onChange={(e) => setConfirmPassword(e.target.value)}
-                                    className="border border-gray-300 p-2 mb-4 w-full"
+                                    className="border border-gray-300 p-2 mb-4 w-full focus:border-emerald-400 outline-none rounded-md"
                                 />
                                 <div className="flex space-x-4">
                                     <button
                                         onClick={handleSignup}
-                                        className="bg-stone-600 text-white py-2 px-4 rounded-xl hover:bg-stone-700 transition duration-200"
+                                        className="bg-emerald-400 text-white py-2 px-4 rounded-xl hover:bg-emerald-600 transition duration-200"
                                     >
                                     Sign Up
                                     </button>
                                     <button
                                         onClick={toggleCanvas}
-                                        className="bg-stone-600 text-white py-2 px-4 rounded-xl hover:bg-stone-700 transition duration-200"
+                                        className="bg-red-400 text-white py-2 px-4 rounded-xl hover:bg-red-600 transition duration-200"
                                     >
                                         Cancel
                                     </button>
@@ -189,12 +189,7 @@ const Login = () => {
                             </div>
                         </div>
                     </div>
-                    <button
-                        onClick={toggleCanvas}
-                        className="ml-2 text-stone-600"
-                    >
-                        Cancel
-                    </button>
+                    
                 </div>
             )}
         </>
