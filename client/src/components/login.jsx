@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { setUser, clearUser } from '../store/reducers/userReducer';
 import { useSnackbar } from 'notistack';
+import './switchmodes.css'; // Ensure this is correctly imported
 
 const Login = () => {
     const dispatch = useDispatch();
@@ -21,17 +22,13 @@ const Login = () => {
             },
             body: JSON.stringify({ username, password }),
         })
-        .then((res) => {
-
-            return res.json();
-        })
+        .then((res) => res.json())
         .then((res) => {
             if (!res.success) {
                 enqueueSnackbar(res.message, { variant: 'error', autoHideDuration: 3000 });
-            }
-            else{
+            } else {
                 enqueueSnackbar('Login Successful', { variant: 'success', autoHideDuration: 3000 });
-                dispatch(setUser({ userID: 1, username: username }));
+                dispatch(setUser({ userID: 1, username }));
                 setShowCanvas(false);
             }
         })
@@ -41,9 +38,12 @@ const Login = () => {
     };
 
     const handleSignup = () => {
-        // Implement signup logic here
         if (password !== confirmPassword) {
             enqueueSnackbar('Passwords do not match', { variant: 'error', autoHideDuration: 3000 });
+            return;
+        }
+        if (!username || !password || !confirmPassword) {
+            enqueueSnackbar('Please fill in all fields', { variant: 'error', autoHideDuration: 3000 });
             return;
         }
         fetch('http://127.0.0.1:5000/signup', {
@@ -53,17 +53,13 @@ const Login = () => {
             },
             body: JSON.stringify({ username, password }),
         })
+        .then((res) => res.json())
         .then((res) => {
-            return res.json();
-        })
-        .then((res) => {
-            if (res.status!==200) {
+            if (res.status !== 200) {
                 enqueueSnackbar(res.message, { variant: 'error', autoHideDuration: 3000 });
-            }
-            else{
-
+            } else {
                 enqueueSnackbar('Signup Successful', { variant: 'success', autoHideDuration: 3000 });
-                dispatch(setUser({ userID: 1, username: username }));
+                dispatch(setUser({ userID: 1, username }));
                 setShowCanvas(false);
             }
         })
@@ -100,70 +96,105 @@ const Login = () => {
         <>
             <button
                 className="bg-white text-stone-600 border-2 border-stone-600 h-full w-auto py-2 px-4 rounded-xl hover:bg-stone-600 hover:text-white transition duration-200 mr-4"
-                onClick={
-                    user ? handleLogout : toggleCanvas
-                }
+                onClick={user ? handleLogout : toggleCanvas}
             >
                 {user ? 'Logout' : 'Login'}
             </button>
 
             {showCanvas && (
                 <div className="fixed top-0 left-0 right-0 bottom-0 bg-black bg-opacity-50 flex items-center justify-center">
-                    <div className="bg-white p-5 rounded-lg shadow-lg">
-                        <h2 className="text-lg font-bold mb-4">{isLogin ? 'Login' : 'Sign Up'}</h2>
-                        <input
-                            type="text"
-                            placeholder="Username"
-                            value={username}
-                            onChange={(e) => setUsername(e.target.value)}
-                            className="border border-gray-300 p-2 mb-2 w-full"
-                        />
-                        <input
-                            type="password"
-                            placeholder="Password"
-                            value={password}
-                            onChange={(e) => setPassword(e.target.value)}
-                            className="border border-gray-300 p-2 mb-2 w-full"
-                        />
-                        {!isLogin && (
-                            <input
-                                type="password"
-                                placeholder="Confirm Password"
-                                value={confirmPassword}
-                                onChange={(e) => setConfirmPassword(e.target.value)}
-                                className="border border-gray-300 p-2 mb-4 w-full"
-                            />
-                        )}
-                        <button
-                            onClick={isLogin ? handleLogin : handleSignup}
-                            className="bg-stone-600 text-white py-2 px-4 rounded-xl hover:bg-stone-700 transition duration-200"
-                        >
-                            {isLogin ? 'Login' : 'Sign Up'}
-                        </button>
-                        <button
-                            onClick={toggleCanvas}
-                            className="ml-2 text-stone-600"
-                        >
-                            Cancel
-                        </button>
-                        <p className="mt-4">
-                            {isLogin ? (
-                                <span>
+                    <div className="perspective">
+                        <div className={`canvas-container ${isLogin ? '' : 'rotate-y-180'} bg-white`}>
+                            <div className="canvas front ">
+                                <h2 className="text-lg font-bold mb-4">Login</h2>
+                                <input
+                                    type="text"
+                                    placeholder="Username"
+                                    value={username}
+                                    onChange={(e) => setUsername(e.target.value)}
+                                    className="border border-gray-300 p-2 mb-2 w-full focus:border-emerald-200 focus:ring-0"
+                                    />
+                                <input
+                                    type="password"
+                                    placeholder="Password"
+                                    value={password}
+                                    onChange={(e) => setPassword(e.target.value)}
+                                    className="border border-gray-300 p-2 mb-2 w-full"
+                                />
+                                <div className="flex space-x-4 mt-4">
+                                    <button
+                                        onClick={handleLogin}
+                                        className="bg-stone-600 text-white py-2 px-4 rounded-xl hover:bg-stone-700 transition duration-200"
+                                    >
+                                    Login
+                                    </button>
+                                    <button
+                                        onClick={toggleCanvas}
+                                        className="bg-stone-600 text-white py-2 px-4 rounded-xl hover:bg-stone-700 transition duration-200"
+                                    >
+                                        Cancel
+                                    </button>
+                                </div>
+                                
+                                <p className="mt-4">
                                     Don't have an account?{' '}
                                     <button onClick={switchToSignup} className="text-stone-600 underline">
                                         Sign Up
                                     </button>
-                                </span>
-                            ) : (
-                                <span>
+                                </p>
+                            </div>
+                            <div className="canvas back">
+                                <h2 className="text-lg font-bold mb-4">Sign Up</h2>
+                                <input
+                                    type="text"
+                                    placeholder="Username"
+                                    value={username}
+                                    onChange={(e) => setUsername(e.target.value)}
+                                    className="border border-gray-300 p-2 mb-2 w-full"
+                                />
+                                <input
+                                    type="password"
+                                    placeholder="Password"
+                                    value={password}
+                                    onChange={(e) => setPassword(e.target.value)}
+                                    className="border border-gray-300 p-2 mb-2 w-full"
+                                />
+                                <input
+                                    type="password"
+                                    placeholder="Confirm Password"
+                                    value={confirmPassword}
+                                    onChange={(e) => setConfirmPassword(e.target.value)}
+                                    className="border border-gray-300 p-2 mb-4 w-full"
+                                />
+                                <div className="flex space-x-4">
+                                    <button
+                                        onClick={handleSignup}
+                                        className="bg-stone-600 text-white py-2 px-4 rounded-xl hover:bg-stone-700 transition duration-200"
+                                    >
+                                    Sign Up
+                                    </button>
+                                    <button
+                                        onClick={toggleCanvas}
+                                        className="bg-stone-600 text-white py-2 px-4 rounded-xl hover:bg-stone-700 transition duration-200"
+                                    >
+                                        Cancel
+                                    </button>
+                                </div>
+                                <p className="mt-4">
                                     Already have an account?{' '}
                                     <button onClick={switchToLogin} className="text-stone-600 underline">
                                         Login
                                     </button>
-                                </span>
-                            )}
-                        </p>
+                                </p>
+                            </div>
+                        </div>
                     </div>
+                    <button
+                        onClick={toggleCanvas}
+                        className="ml-2 text-stone-600"
+                    >
+                        Cancel
+                    </button>
                 </div>
             )}
         </>
