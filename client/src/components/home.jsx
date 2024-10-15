@@ -1,5 +1,7 @@
 import React from 'react'
 import { useState } from 'react';
+import gif from './dolphin.gif';
+
 const Home = () => {
   const [backendOut,setBackendOut] = useState('');
   function callBackend() {
@@ -7,7 +9,14 @@ const Home = () => {
   }
     return (
         <div className="text-stone-600">
-            <div className="bg-white h-screen w-full align-middle text-center space-y-20"> 
+            <div 
+            className="bg-white h-screen w-full align-middle text-center space-y-20"
+              style={{
+                backgroundImage: `url(${gif})`,
+                backgroundSize: 'cover',
+                backgroundPosition: 'center',
+              }}
+            > 
               <div className="text-7xl pt-20">
                 Flux diffision image generator
               </div>
