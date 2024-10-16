@@ -10,7 +10,7 @@ function App() {
   return (
     <SnackbarProvider>
       <Router>
-        <Navbar />
+        {/*<Navbar />*/}
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/Gallery" element={<Gallery />} />

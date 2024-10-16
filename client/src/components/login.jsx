@@ -113,14 +113,16 @@ const Login = () => {
     return (
         <>
             <button
-                className="bg-white text-stone-600 border-2 border-stone-600 h-full w-auto py-2 px-4 rounded-xl hover:bg-stone-600 hover:text-white transition duration-200 mr-4"
-                onClick={user ? handleLogout : toggleCanvas}
-            >
-                {user ? 'Logout' : 'Login'}
-            </button>
+  className="fixed top-4 right-4 bg-white text-stone-600 border-2 border-stone-600 h-auto py-4 px-4 rounded-xl hover:bg-stone-600 hover:text-white transition duration-200 w-1/12"
+  onClick={user ? handleLogout : toggleCanvas}
+
+>
+  {user ? 'Logout' : 'Login'}
+</button>
+
 
             {showCanvas && (
-                <div className="fixed top-0 left-0 right-0 bottom-0 bg-black bg-opacity-50 flex items-center justify-center">
+                <div className="fixed top-0 left-0 right-0 bottom-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
                     <div className="perspective">
                         <div className={`canvas-container ${isLogin ? '' : 'rotate-y-180'} bg-white`}>
                             <div className="canvas front ">
