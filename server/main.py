@@ -1,5 +1,6 @@
 from flask import Flask, jsonify, request
 from flask_cors import CORS
+import subprocess
 
 app = Flask(__name__)
 
@@ -11,6 +12,8 @@ logins = {
     "AleHuerta" : 'IRunSlow',
     "Smallberg" : 'I<3C++'
 }
+
+
 
 @app.route('/signup', methods=['POST'])
 def register():
@@ -37,10 +40,25 @@ def login():
     else:
         return jsonify({"message": "Login failed", "status": 401}), 401
 
+@app.route('/prompt_recv', methods=['GET','POST'])
+def prompt():
+    prompt = request.get_json()
+    prompt = prompt.get('prompt')
+    print(prompt)
+
+    subprocess.run(
+    ['python3', 'fastsdcpu/src/app.py', '--prompt', prompt],
+        check=True  # Optional: raises an error if the command fails
+    )
+    
+    return jsonify({"prompt": prompt})
+
+
 
 @app.route('/')
 def home():
     return jsonify({"message": "Hello, World!"})
+
 
 if __name__ == '__main__':
     app.run(debug=True)

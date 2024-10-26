@@ -3,6 +3,7 @@ import { useState } from 'react';
 import gif from './dolphin.gif';
 import sky from './sky.jpg';
 import Login from './login.jsx';
+
 const Home = () => {
   const [backendOut,setBackendOut] = useState('');
   function callBackend() {
