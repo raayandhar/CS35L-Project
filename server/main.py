@@ -1,6 +1,7 @@
 from flask import Flask, jsonify, request
 from flask_cors import CORS
 import subprocess
+import os
 
 app = Flask(__name__)
 
@@ -47,8 +48,8 @@ def prompt():
     print(prompt)
 
     subprocess.run(
-    ['python3', 'fastsdcpu/src/app.py', '--prompt', prompt],
-        check=True  # Optional: raises an error if the command fails
+        [os.path.abspath(os.path.join('venv', 'Scripts', 'python')), 'fastsdcpu/src/app.py', '--prompt', prompt],
+        check=True
     )
     
     return jsonify({"prompt": prompt})
