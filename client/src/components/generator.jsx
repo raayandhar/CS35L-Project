@@ -1,4 +1,4 @@
-// NewPage.jsx
+  // NewPage.jsx
 import React from 'react';
 import { useState } from 'react';
 
@@ -7,11 +7,9 @@ const Generator = () => {
     const [prompt, setPrompt] = useState('');
     const [generatedImage, setGeneratedImage] = useState(null);
 
-
     const handleForm = async (input) => {
 
         input.preventDefault();
-
         const response = await fetch('http://127.0.0.1:5000/prompt_recv', {
             method: 'POST',
             headers: {
@@ -20,14 +18,9 @@ const Generator = () => {
             body: JSON.stringify({prompt}),
 
         });
-
         const image_recv = await response.json();
-
        setGeneratedImage(`data:image/png;base64,${image_recv.image}`);
-
-
     }
-
 
   return (
     <div>
