@@ -6,6 +6,7 @@ const Navbar = () => {
     { path: "/", label: "Home" },
     { path: "/gallery", label: "Gallery" },
     { path: "/profile", label: "Profile" },
+    { path: "/generator", label: "Generator"},
   ];
 
   return (
