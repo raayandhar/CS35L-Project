@@ -42,11 +42,11 @@ def test_db():
         conn = get_db_connection()
         cursor = conn.cursor()
 
-        # Execute a simple query
-        cursor.execute("SELECT NOW();")
-        current_time = cursor.fetchone()
+        # Query for users with the username 'kylecj21'
+        cursor.execute("SELECT * FROM users WHERE Username = %s;", ('kylecj21',))
+        users = cursor.fetchall()
 
-        return jsonify({"message": "Database connection successful", "current_time": current_time[0]}), 200
+        return jsonify({"message": "Database connection successful", "users": users}), 200
 
     except Exception as e:
         return jsonify({"message": "Error connecting to the database", "error": str(e)}), 500
