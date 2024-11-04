@@ -1,0 +1,59 @@
+.side {
+    height: 100vh;
+    width: 100%;
+
+    display: grid;
+    place-items: center;
+
+    overflow: hidden;
+    position: absolute;
+}
+
+.side .fancy {
+    font-family: "Rubik", cursive;
+    font-size: 1.3em;
+    line-height: 0.8em;
+}
+
+
+#left-side .title {
+    color: rgb(0, 0, 0);
+}
+
+#left-side .fancy{
+    color: #fdfdfd;
+}
+
+#right-side .title {
+    color: white;
+}
+
+#right-side .fancy{
+    color: #9966cc;
+}
+
+.side .title {
+    font-family: "Rubik", sans-serif;
+    font-size: 5vw;
+    margin: 0px 15vw;
+    width: 70vw
+}
+
+
+#left-side {
+    background-color: var(--amethyst);
+    z-index: 2;
+
+    clip-path: inset(0 calc(100% - var(--frame-position)) 0 0);
+}
+
+#right-side {
+    background-color: var(--grey);
+
+}
+
+:root {
+    --grey: #afafaf;
+    --amethyst: #9966cc; 
+    --frame-position: 50%;
+}

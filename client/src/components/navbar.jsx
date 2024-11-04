@@ -10,7 +10,7 @@ const Navbar = () => {
   ];
 
   return (
-    <nav className="bg-emerald-200 text-stone-600 p-2 border-2 border-stone-600">
+    <nav className="text-stone-600 border-stone-600">
       <ul className="flex justify-between items-center">
         <div className="flex space-x-4">
           {links.map((link) => (

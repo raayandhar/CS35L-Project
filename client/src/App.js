@@ -7,6 +7,7 @@ import Navbar from './components/navbar.jsx';
 import Profile from './components/profile.jsx';
 import Generator from './components/generator.jsx'
 import { SnackbarProvider } from 'notistack';
+
 function App() {
   return (
     <SnackbarProvider>

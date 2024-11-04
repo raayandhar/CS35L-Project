@@ -1,31 +1,46 @@
-import React from 'react'
-import { useNavigate} from 'react-router-dom';
-import gif from './dolphin.gif';
-import sky from './sky.jpg';
+import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import Login from './login.jsx';
+import './home.css'; // Import your CSS file
+
 
 const Home = () => {
+
+  const [frame, setFrame] = useState('50%');
+
   const goGenerate = useNavigate();
+
+  const handleOnShift = (e) => {
+    const p = (e.clientX / window.innerWidth) * 100;
+    setFrame(`${p}%`);
+    document.documentElement.style.setProperty('--frame-position', `${p}%`);
+  }
 
   function goToGenerate() {
     goGenerate('/generator')
   }
+
     return (
+      <div onMouseMove={handleOnShift}>
+      <div id="left-side" className="side">
+        <h2 className="title">
+          Generate any image you can <span className="fancy">imagine</span>
+        </h2>
+      </div>
+      <div id="right-side" className="side">
+        <h2 className="title">
+          Generate any image you can <span className="fancy">Here</span>
+        </h2>
+      </div>
+    </div>
+ 
+
+      /*
         <div className="text-stone-600"
-        style={{
-          backgroundImage: `url(${sky})`,
-          backgroundSize: 'cover',
-          backgroundPosition: 'center',
-        }}
         >
             <Login/>
             <div 
             className=" h-screen w-full align-middle text-center space-y-20"
-              style={{
-                backgroundImage: `url(${gif})`,
-                backgroundSize: 'cover',
-                backgroundPosition: 'center',
-              }}
             > 
               <div className="text-7xl pt-20 text-white font-bold font-serif">
                 Flux diffision image generator
@@ -37,6 +52,7 @@ const Home = () => {
             </div>
 
       </div>
+      */
     );
 }
 export default Home
