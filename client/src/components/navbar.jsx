@@ -3,32 +3,21 @@ import { Link } from 'react-router-dom';
 import Login from './login.jsx';
 const Navbar = () => {
   const links = [
-    { path: "/", label: "Home" },
-    { path: "/gallery", label: "Gallery" },
-    { path: "/profile", label: "Profile" },
-    { path: "/generator", label: "Generator"},
+    { path: "/", label: "Home", image: "homeImage.png", fontFamily: "Rubik, sans-serif" },
+    { path: "/gallery", label: "Gallery", image: "galleryimage.png", fontFamily: "Rubik, sans-serif" },
+    { path: "/profile", label: "Profile", image: "profileImage.png", fontFamily: "Rubik, sans-serif" },
+    { path: "/generator", label: "Generator", image: "generateImage.png", fontFamily: "Rubik, sans-serif" },
   ];
-
+  
   return (
-    <nav className="text-stone-600 border-stone-600">
-      <ul className="flex justify-between items-center">
-        <div className="flex space-x-4">
-          {links.map((link) => (
-            <li key={link.path}>
-              <Link to={link.path}>
-                <button className=" bg-transparent  text-stone-600 h-full w-auto py-2 px-4 rounded-xl hover:bg-white hover:border-2 hover:border-stone-600">
-                  {link.label}
-                </button>
-              </Link>
-            </li>
-          ))}
-        </div>
-        
-        <li>
-          <Login/>
-        </li>
-      </ul>
-    </nav>
+    <div id="nav-links">
+      {links.map((link) => (
+        <Link key={link.path} to={link.path} className="nav-link" style={{fontFamily: link.fontFamily }}>
+          <h2 className="nav-link-label rubik-font">{link.label}</h2>
+          <img className="nav-link-image" src={link.image}/>
+        </Link>
+      ))}
+    </div>
   );
 };
 

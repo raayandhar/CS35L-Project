@@ -1,38 +1,41 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faBars, faXmark } from '@fortawesome/free-solid-svg-icons';
+import Navbar from './navbar.jsx';
 import Login from './login.jsx';
 import './home.css'; // Import your CSS file
 
 
 const Home = () => {
 
-  const [frame, setFrame] = useState('50%');
-
+  const [navBarOpen, setNavBarOpen] = useState(false);
   const goGenerate = useNavigate();
 
-  const handleOnShift = (e) => {
-    const p = (e.clientX / window.innerWidth) * 100;
-    setFrame(`${p}%`);
-    document.documentElement.style.setProperty('--frame-position', `${p}%`);
-  }
 
   function goToGenerate() {
-    goGenerate('/generator')
+    goGenerate('/generator');
+  }
+
+  const toggleNavBar = () => {
+    setNavBarOpen(!navBarOpen);
   }
 
     return (
-      <div onMouseMove={handleOnShift}>
-      <div id="left-side" className="side">
-        <h2 className="title">
-          Generate any image you can <span className="fancy">imagine</span>
-        </h2>
+      <div data-nav={navBarOpen.toString()}>
+        <main>         
+          <button id='nav-toggle' type='button' onClick={toggleNavBar}>
+            <FontAwesomeIcon className="open" icon={faBars}/>
+            <FontAwesomeIcon className="close" icon={faXmark}/>
+          </button>
+        </main>
+        {navBarOpen && (
+            <nav>
+            <Navbar />
+          </nav>
+        )}
       </div>
-      <div id="right-side" className="side">
-        <h2 className="title">
-          Generate any image you can <span className="fancy">Here</span>
-        </h2>
-      </div>
-    </div>
+
  
 
       /*
