@@ -1,14 +1,14 @@
 import React from 'react'
-import { useState } from 'react';
+import { useNavigate} from 'react-router-dom';
 import gif from './dolphin.gif';
 import sky from './sky.jpg';
 import Login from './login.jsx';
 
 const Home = () => {
-  const [backendOut,setBackendOut] = useState('');
-  function callBackend() {
-    fetch('http://127.0.0.1:5000/').then(res => res.json()).then(res => setBackendOut(res["message"]));
-    console.log(backendOut);
+  const goGenerate = useNavigate();
+
+  function goToGenerate() {
+    goGenerate('/generator')
   }
     return (
         <div className="text-stone-600"
@@ -30,9 +30,9 @@ const Home = () => {
               <div className="text-7xl pt-20 text-white font-bold font-serif">
                 Flux diffision image generator
               </div>
-              <button onClick={callBackend} 
+              <button onClick={goToGenerate} 
   className="bg-white h-20 w-1/3 rounded-xl border-2 border-stone-600 text-6xl font-bold font-serif text-black transition-transform duration-300 ease-in-out transform hover:scale-110">
-  Generate
+  Generate 
               </button>
             </div>
 
