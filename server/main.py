@@ -4,6 +4,12 @@ import subprocess
 import os
 import glob
 import base64
+import psycopg2
+from psycopg2 import sql
+from dotenv import load_dotenv
+
+load_dotenv()
+
 
 app = Flask(__name__)
 
@@ -16,6 +22,40 @@ logins = {
     "Smallberg" : 'I<3C++'
 }
 
+# Database connection parameters
+DB_CONFIG = {
+    'host': os.getenv('DB_HOST'),
+    'database': os.getenv('DB_NAME'),
+    'user': os.getenv('DB_USER'),
+    'password': os.getenv('DB_PASSWORD'),
+    'port': int(os.getenv('DB_PORT'))
+}
+
+def get_db_connection():
+    return psycopg2.connect(**DB_CONFIG)
+
+@app.route('/test_db', methods=['GET'])
+def test_db():
+    conn = None
+    cursor = None
+    try:
+        conn = get_db_connection()
+        cursor = conn.cursor()
+
+        # Query for users with the username 'kylecj21'
+        cursor.execute("SELECT * FROM users WHERE Username = %s;", ('kylecj21',))
+        users = cursor.fetchall()
+
+        return jsonify({"message": "Database connection successful", "users": users}), 200
+
+    except Exception as e:
+        return jsonify({"message": "Error connecting to the database", "error": str(e)}), 500
+
+    finally:
+        if cursor is not None:
+            cursor.close()
+        if conn is not None:
+            conn.close()
 
 
 @app.route('/signup', methods=['POST'])

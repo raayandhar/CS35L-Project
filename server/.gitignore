@@ -7,3 +7,9 @@ node_modules/
 
 # authorization
 .env
+
+results/
+
+configs/
+
+.DS_Store
