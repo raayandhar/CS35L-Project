@@ -11,8 +11,6 @@ const Home = () => {
 
   const [navBarOpen, setNavBarOpen] = useState(false);
   const goGenerate = useNavigate();
-
-
   function goToGenerate() {
     goGenerate('/generator');
   }
@@ -23,39 +21,51 @@ const Home = () => {
 
     return (
       <div data-nav={navBarOpen.toString()}>
-        <main>         
-          <button id='nav-toggle' type='button' onClick={toggleNavBar}>
+        <main>
+          <h2 className="name">
+            The Syndicate
+          </h2>
+          <h2 className="title">
+              Flux Diffusion Image Gen.
+          </h2>
+           <h2 className="side1">
+            Bring your visions to life with limitless <span className="fancy">creativity</span>
+          </h2>
+          <h2 className="side2">
+            Turn ideas into images; let your imagination take <span className="fancy">flight</span>
+          </h2>
+          <h2 className="side3">
+            From concept to creation, unleash boundless <span className="fancy">potential</span>
+          </h2>
+          <h2 className="side4">
+            Create beyond boundaries; the canvas is <span className="fancy">endless</span>
+          </h2>
+          <h2 className="side5">
+            Where imagination meets <span className="fancy">innovation</span>
+          </h2>
+          <h2 className="side6">
+            Let your dreams shape reality—one image at a <span className="fancy">time</span>
+          </h2>
+          <h2 className="side7">
+            Your creative potential, amplified to <span className="fancy">infinity</span>
+          </h2>
+          <h2 className="side8">
+            Make them <span className="fancy">believe</span>
+          </h2>
+        </main>
+        <button id='nav-toggle' type='button' onClick={toggleNavBar}>
             <FontAwesomeIcon className="open" icon={faBars}/>
             <FontAwesomeIcon className="close" icon={faXmark}/>
           </button>
-        </main>
+          <body className="login-wrapper">
+                <Login className="login-wrapper"/>
+            </body>
         {navBarOpen && (
             <nav>
-            <Navbar />
-          </nav>
+            <Navbar activated={navBarOpen}/>
+            </nav>
         )}
       </div>
-
- 
-
-      /*
-        <div className="text-stone-600"
-        >
-            <Login/>
-            <div 
-            className=" h-screen w-full align-middle text-center space-y-20"
-            > 
-              <div className="text-7xl pt-20 text-white font-bold font-serif">
-                Flux diffision image generator
-              </div>
-              <button onClick={goToGenerate} 
-  className="bg-white h-20 w-1/3 rounded-xl border-2 border-stone-600 text-6xl font-bold font-serif text-black transition-transform duration-300 ease-in-out transform hover:scale-110">
-  Generate 
-              </button>
-            </div>
-
-      </div>
-      */
     );
 }
 export default Home

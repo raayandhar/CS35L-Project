@@ -1,23 +1,30 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import Login from './login.jsx';
-const Navbar = () => {
+import homeImage from './homeImage.png';
+import galleryImage from './galleryImage.png';
+import profileImage from './profileImage.png';
+import generateImage from './generateImage.png';
+import './navbar.css';
+
+const Navbar = ({activated}) => {
   const links = [
-    { path: "/", label: "Home", image: "homeImage.png", fontFamily: "Rubik, sans-serif" },
-    { path: "/gallery", label: "Gallery", image: "galleryimage.png", fontFamily: "Rubik, sans-serif" },
-    { path: "/profile", label: "Profile", image: "profileImage.png", fontFamily: "Rubik, sans-serif" },
-    { path: "/generator", label: "Generator", image: "generateImage.png", fontFamily: "Rubik, sans-serif" },
+    { path: "/", label: "Home", image: homeImage},
+    { path: "/gallery", label: "Gallery", image: galleryImage},
+    { path: "/profile", label: "Profile", image: profileImage},
+    { path: "/generator", label: "Generator", image: generateImage}
   ];
   
   return (
-    <div id="nav-links">
-      {links.map((link) => (
-        <Link key={link.path} to={link.path} className="nav-link" style={{fontFamily: link.fontFamily }}>
-          <h2 className="nav-link-label rubik-font">{link.label}</h2>
-          <img className="nav-link-image" src={link.image}/>
-        </Link>
-      ))}
-    </div>
+    <nav>
+      <div id="nav-links" className={activated ? 'active' : ''}>
+        {links.map((link) => (
+          <Link key={link.path} to={link.path} className="nav-link">
+            <h2 className="nav-link-label rubik-font">{link.label}</h2>
+            <img className="nav-link-image" src={link.image}/>
+          </Link>
+        ))}
+      </div>
+    </nav>
   );
 };
 

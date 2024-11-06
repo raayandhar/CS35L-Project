@@ -8,13 +8,12 @@ import psycopg2
 from psycopg2 import sql
 from dotenv import load_dotenv
 
-load_dotenv()
-
 
 app = Flask(__name__)
 
 CORS(app)
 
+'''
 # temporary local login DB
 logins = {
     "kylecj21": 'password',
@@ -57,6 +56,7 @@ def test_db():
         if conn is not None:
             conn.close()
 
+'''            
 
 @app.route('/signup', methods=['POST'])
 def register():

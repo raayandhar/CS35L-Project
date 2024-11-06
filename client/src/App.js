@@ -17,7 +17,6 @@ function App() {
           <Route path="/Gallery" element={<Gallery />} />
           <Route path="/Profile" element={<Profile />} />
           <Route path="/Generator"element = {<Generator/>} />
-
         </Routes>
       </Router>
     </SnackbarProvider>

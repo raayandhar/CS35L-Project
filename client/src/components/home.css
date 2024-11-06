@@ -1,16 +1,20 @@
-body {
+@import url('https://fonts.googleapis.com/css2?family=Rubik:wght@400;500;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Rubik+Mono:wght@400&display=swap');
+
+div {
     height: 100vh;
     width: 100vw;
     margin: 0px;
     background-color: rgb(135, 171, 188);
 }
 
-body, main {
+div, main {
     height: 100vh;
     width: 100vw;
     margin: 0px;
     background-color: rgb(135, 171, 188);
 }
+
 
 main {
     background:
@@ -22,29 +26,235 @@ main {
     position: relative;
     z-index: 2;
     transition: transform 500ms cubic-bezier(.13,.53,.38,.97);
+    overflow: hidden;
 }
-.title {
-    font-family: "Rubik", sans-serif;
-    font-size: 5vw;
-    font-weight: 800;
-    margin: 0 15vw;
-    width: 70vw;
-    
-    height: 100vh;
-    display: grid;
-    place-items: center;
 
+.title {
+    flex: auto;
+    font-family: "Rubik", sans-serif;
+    width: 14vw;
+    color: rgb(238, 236, 236);
+    font-size: 1em; 
+    position: relative;
     overflow: hidden;
     position: absolute;
+    left: 26vw; /* Matches approximately 380px */
+    top: 8vh; /* Matches approximately 70px */
+}
+
+.name {
+    flex: auto;
+    font-family: "Rubik Mono", sans-serif;
+    width: 16vw;
+    color: white;
+    font-size: 1.4em; 
+    position: relative;
+    overflow: hidden;
+    position: absolute;
+    left: 26vw; /* Matches approximately 380px */
+    top: 4vh; /* Matches approximately 30px */
+    text-shadow: 0.5px 0.5px 2px rgba(0, 0, 0, 0.1);
+}
+
+.side1 {
+    font-family: "Rubik", sans-serif;
+    font-size: 5vw;
+    margin: 0 15vw;
+    width: 70vw;
+    color: white;
+    transform: rotate(-90deg);
+    transform-origin: left top;
+    font-size: 1.5em; 
+    position: relative;
+    overflow: hidden;
+    position: absolute;
+    left: 3vw;
+    top: 40vw;
+  }
+  
+.side1 .fancy {
+    font-family: "Rubik", sans-serif;
+    font-size: 1.3em;
+    line-height: 0.8em;
+    color: bisque;
+    z-index: 1;
+}
+
+.side2 {
+    font-family: "Rubik", sans-serif;
+    font-size: 5vw;
+    margin: 0 15vw;
+    width: 70vw;
+    color: white;
+    transform: rotate(90deg);
+    transform-origin: left top;
+    font-size: 1.5em; 
+    position: relative;
+    overflow: hidden;
+    position: absolute;
+    left: 70vw;
+    top: 4vw;
+  }
+  
+.side2 .fancy {
+    font-family: "Rubik", sans-serif;
+    font-size: 1.3em;
+    line-height: 0.8em;
+    color: bisque;
+    z-index: 1;
+}
+
+.side3 {
+    font-family: "Rubik", sans-serif;
+    font-size: 5vw;
+    margin: 0 15vw;
+    width: 70vw;
+    color: white;
+    transform: rotate(-90deg);
+    transform-origin: left top;
+    font-size: 1.5em; 
+    position: relative;
+    overflow: hidden;
+    position: absolute;
+    left: 0vw;
+    top: 47vw;
+  }
+  
+.side3 .fancy {
+    font-family: "Rubik", sans-serif;
+    font-size: 1.3em;
+    line-height: 0.8em;
+    color: bisque;
+    z-index: 1;
+}
+
+.side4 {
+    font-family: "Rubik", sans-serif;
+    font-size: 5vw;
+    margin: 0 15vw;
+    width: 70vw;
+    color: white;
+    transform: rotate(90deg);
+    transform-origin: left top;
+    font-size: 1.5em; 
+    position: relative;
+    overflow: hidden;
+    position: absolute;
+    left: 73vw;
+    top: 8vw;
+  }
+  
+.side4 .fancy {
+    font-family: "Rubik", sans-serif;
+    font-size: 1.3em;
+    line-height: 0.8em;
+    color: bisque;
+    z-index: 1;
+}
+
+.side5 {
+    font-family: "Rubik", sans-serif;
+    font-size: 5vw;
+    margin: 0 15vw;
+    width: 70vw;
+    color: white;
+    transform: rotate(-90deg);
+    transform-origin: left top;
+    font-size: 1.5em; 
+    position: relative;
+    overflow: hidden;
+    position: absolute;
+    left: -6vw;
+    top: 44vw;
+  }
+  
+.side5 .fancy {
+    font-family: "Rubik", sans-serif;
+    font-size: 1.3em;
+    line-height: 0.8em;
+    color: bisque;
+    z-index: 1;
+}
+
+.side6 {
+    font-family: "Rubik", sans-serif;
+    font-size: 5vw;
+    margin: 0 15vw;
+    width: 70vw;
+    color: white;
+    transform: rotate(90deg);
+    transform-origin: left top;
+    font-size: 1.5em; 
+    position: relative;
+    overflow: hidden;
+    position: absolute;
+    left: 67vw;
+    top: 13vw;
+  }
+  
+.side6 .fancy {
+    font-family: "Rubik", sans-serif;
+    font-size: 1.3em;
+    line-height: 0.8em;
+    color: bisque;
+    z-index: 1;
+}
+
+.side7 {
+    font-family: "Rubik", sans-serif;
+    font-size: 5vw;
+    margin: 0 15vw;
+    width: 70vw;
+    color: white;
+    transform: rotate(-90deg);
+    transform-origin: left top;
+    font-size: 1.5em; 
+    position: relative;
+    overflow: hidden;
+    position: absolute;
+    left: -3vw;
+    top: 49vw;
+  }
+  
+.side7 .fancy {
+    font-family: "Rubik", sans-serif;
+    font-size: 1.3em;
+    line-height: 0.8em;
+    color: bisque;
+    z-index: 1;
+}
+
+.side8 {
+    font-family: "Rubik", sans-serif;
+    font-size: 5vw;
+    margin: 0 15vw;
+    width: 70vw;
+    color: white;
+    transform: rotate(90deg);
+    transform-origin: left top;
+    font-size: 1.5em; 
+    position: relative;
+    overflow: hidden;
+    position: absolute;
+    left: 76vw;
+    top: 35vw;
+  }
+  
+.side8 .fancy {
+    font-family: "Rubik", sans-serif;
+    font-size: 1.3em;
+    line-height: 0.8em;
+    color: bisque;
+    z-index: 1;
 }
 
 
 #nav-toggle {
     height: 5rem;
     width: 5rem;
-    position: fixed;
+    position: absolute;
     z-index: 3;
-    left: 50%;
+    left: 46%;
     bottom: 3rem;
     transform: translateX(-50%);
     background-color: rgb(253, 222, 61);
@@ -88,7 +298,9 @@ div[data-nav="true"] main {
 div[data-nav="false"] #nav-toggle:hover .open{
     opacity: 1; 
     transform: translate(-50%, -50%) scale(1);
+
 }
+
 
 div[data-nav="true"] #nav-toggle .close{
     opacity: 1;
