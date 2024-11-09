@@ -1,27 +1,16 @@
 import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faBars, faXmark } from '@fortawesome/free-solid-svg-icons';
-import Navbar from './navbar.jsx';
-import Login from './login.jsx';
+import NavButton from './navbutton.jsx';
 import './home.css'; // Import your CSS file
+
 
 
 const Home = () => {
 
   const [navBarOpen, setNavBarOpen] = useState(false);
-  const goGenerate = useNavigate();
-  function goToGenerate() {
-    goGenerate('/generator');
-  }
-
-  const toggleNavBar = () => {
-    setNavBarOpen(!navBarOpen);
-  }
-
+  
     return (
-      <div data-nav={navBarOpen.toString()}>
-        <main>
+      <div className='main-div' data-nav={navBarOpen.toString()}>
+        <main className='main-home'>
           <h2 className="name">
             The Syndicate
           </h2>
@@ -53,18 +42,7 @@ const Home = () => {
             Make them <span className="fancy">believe</span>
           </h2>
         </main>
-        <button id='nav-toggle' type='button' onClick={toggleNavBar}>
-            <FontAwesomeIcon className="open" icon={faBars}/>
-            <FontAwesomeIcon className="close" icon={faXmark}/>
-          </button>
-          <body className="login-wrapper">
-                <Login className="login-wrapper"/>
-            </body>
-        {navBarOpen && (
-            <nav>
-            <Navbar activated={navBarOpen}/>
-            </nav>
-        )}
+        <NavButton classname="nav-section" setNavBarOpen={setNavBarOpen} navBarOpen={navBarOpen} />
       </div>
     );
 }

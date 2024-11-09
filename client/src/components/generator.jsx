@@ -2,12 +2,17 @@
 import React from 'react';
 import { useState } from 'react';
 import gif from './loadbar.gif'
+import NavButton from './navbutton.jsx';
+import './generator.css';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faPaperPlane } from '@fortawesome/free-solid-svg-icons';
 
 const Generator = () => {
 
     const [prompt, setPrompt] = useState('');
     const [generatedImage, setGeneratedImage] = useState(null);
     const [loading, setLoading] = useState(false);
+    const [navBarOpen, setNavBarOpen] = useState(false);
 
     const handleForm = async (input) => {
         setLoading(true);
@@ -32,63 +37,55 @@ const Generator = () => {
     }
     
   return (
-    <div>
-        <h1 style={{ fontWeight: 'bold', textAlign: 'center', position: 'absolute', top: '70px', width: '100%', fontSize: '50px' }}>
-          Image Generator
+    <div className="generator-div"data-nav={navBarOpen.toString()}>
+        <main className="main-generator">
+        <h1 className="title1">
+          Create
         </h1>
+        <h2 className="title2">
+          Without
+        </h2>
+        <h2 className="title3">
+          Limits
+        </h2>
+        <h2 className="title4">
+          Be Free
+        </h2>
+        <div className="imagebar"/>
+        <div class="centered-bar"></div>
+            {!loading && !generatedImage &&(
+                        <form onSubmit={handleForm} method="POST">
+                            <input
+                                className="input-text"
+                                name="prompt"
+                                value={prompt}
+                                onChange={(e) => setPrompt(e.target.value)}
+                                placeholder="What do you want to generate?"
+                            />
+                            <button className="submit-button" type="submit">
+                                <FontAwesomeIcon className="submit-icon" icon={faPaperPlane} />
+                            </button>
+                        </form>
+                    )}
 
-        <div
-      style={{
-        display: 'flex',
-        flexDirection: 'column',
-        justifyContent: 'center',
-        alignItems: 'center',
-        height: '100vh',
-        textAlign: 'center',
-      }}>
+                {loading && (
+                        <div className="loading-container">
+                        <div className="loading-overlay"></div>
+                        <div className="loading-indicator"></div>
+                        <h1 className="loading-text">Your Image is being generated, please wait</h1>
+                    </div>
+                    )} 
 
-      {!loading && !generatedImage &&(
-                  <form onSubmit={handleForm} method="POST">
-                      <input
-                          name="prompt"
-                          value={prompt}
-                          onChange={(e) => setPrompt(e.target.value)}
-                          placeholder="Enter prompt here"
-                          style={{ marginBottom: '10px' }} 
-                      />
-                      <button type="submit">Submit prompt</button>
-                  </form>
-              )}
-
-          {loading && (
-                  <div>
-                      <img 
-                          src={gif} 
-                          alt="Loading indicator" 
-                          style={{ width: '200px', height: '200px', marginRight: '50px' }}
-                      />
-                      <h1>Image is being generated, Estimated time 3 minutes</h1>
-                  </div>
-              )} 
-
-        {generatedImage && !loading && (
-                  <div>
-                      <h2>Image has been Generated</h2>
-                      <img 
-                          src={generatedImage} 
-                          alt="Generated" 
-                      />
-                      <a 
-                          href={generatedImage} 
-                          download="generated_image.png"
-                      >    
-                          <button type="button">
-                              Click here to download your image
-                          </button>
-                      </a>
-                  </div>
-              )}  
-          </div>
+                {generatedImage && !loading && (
+                        <div className="modal-overlay">
+                            <img 
+                                src={generatedImage}
+                                alt="Generated" 
+                            />
+                        </div>
+                    )}  
+          </main>
+          <NavButton classname="nav-section" setNavBarOpen={setNavBarOpen} navBarOpen={navBarOpen}/>
     </div>
   );
 

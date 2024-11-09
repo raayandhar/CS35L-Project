@@ -1,14 +1,12 @@
-@import url('https://fonts.googleapis.com/css2?family=Rubik:wght@400;500;700&display=swap');
-
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;500&display=swap');
 
 #nav-links .nav-link {
     text-decoration: none;
-    font-family: 'Rubik', sans-serif;
+    font-family: 'Roboto', Helvetica, Arial, sans-serif;
 }
-
 #nav-links .nav-link .nav-link-label {
     color: white;
-    font-size: 1.25rem;
+    font-size: 1.20rem;
     margin: 0;
     text-transform: uppercase;
 }
@@ -16,9 +14,17 @@
 #nav-links .nav-link .nav-link-image {
     width: max(20vw, 400px);
     aspect-ratio: 1.8 / 1;
-    border-radius: 0.5rem;
     margin-top: 0.75rem;
+    border-radius: 2%;
     object-fit: cover;
+}
+
+#nav-links .nav-link {
+    transition-timing-function: ease;
+    transition-duration: 300ms;
+}
+#nav-links .nav-link:hover {
+    transform: scale(1.02);
 }
 
 nav {
@@ -29,6 +35,7 @@ nav {
     bottom: 0;
     z-index: 1;
     overflow: hidden;
+    background-color: black;
 }
   
 #nav-links {
@@ -37,7 +44,10 @@ nav {
     margin-top: clamp(2rem, 2vw, 3rem);
     padding: 0rem clamp(1rem, 2vw, 2rem);
     transform: translateY(70%) scale(0.9);
-    transition: transform 500ms cubic-bezier(.13,.53,.38,.97);
+    transition: transform 400ms cubic-bezier(.13, .53, .38, .97);
+}
+#nav-links:hover {
+    transform: translateX(-50%) scale(1.04);
 }
 
 #nav-links.active {
