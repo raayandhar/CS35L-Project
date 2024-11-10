@@ -13,15 +13,6 @@
     
 }
 
-.canvas {
-    position: absolute;
-    width: 100%;
-    height: 100%;
-    backface-visibility: hidden;
-    padding: 20px; 
-}
-
-
 .back {
     transform: rotateY(180deg);
 }
@@ -29,4 +20,56 @@
 .rotate-y-180 {
     /* this number changes the animation significance */
     transform: rotateY(900deg);
+}
+
+
+.login-button {
+    height: 5rem;
+    width: 5rem;
+    position: fixed;
+    z-index: 3;
+    left:54%;
+    bottom: 3rem;
+    transform: translateX(-50%);
+    background-color: rgb(137, 90, 59);
+    border: none;
+    border-radius: 5rem;
+    outline: none;
+    box-shadow: 0rem 0rem 5rem rgba(0, 0, 0, 0.35);
+    cursor: pointer;
+    transition: transform, background-color;
+    transition-timing-function: ease;
+    transition-duration: 400ms;
+}
+
+.login-button:hover {
+    transform: translateX(-50%) scale(1.04);
+}
+
+.login-button:active {
+    transform: translateX(-50%) scale(0.96);
+}
+
+.login-button .open,
+.login-button .close {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%) scale(0.9);
+    color: white;
+    font-size: 1.75rem;
+    opacity: 0;
+    transition: transform, opacity;
+    transition-timing-function: ease;
+    transition-duration: 400ms;
+}
+
+button[canvasOn="false"]:hover .open {
+    opacity: 1; 
+    transform: translate(-50%, -50%) scale(1);
+}
+
+button[canvasOn="true"] .close {
+    opacity: 1;
+    transform: translate(-50%, -50%) scale(1);
 }
