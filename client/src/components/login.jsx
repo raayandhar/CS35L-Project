@@ -111,12 +111,12 @@ const Login = () => {
         setPassword('');
         setConfirmPassword('');
     };
+
     return (
         <>
             <button canvasOn={showCanvas.toString()}
                 className="login-button"
-                /*onClick={user ? handleLogout : toggleCanvas}*/
-                onClick={toggleCanvas}            
+                onClick={user ? handleLogout : toggleCanvas}
             >
                 <FontAwesomeIcon className="open" icon={faUser}/>
                 <FontAwesomeIcon className="close" icon={faXmark}/>
