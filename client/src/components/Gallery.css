@@ -1,0 +1,51 @@
+/* client/src/components/Gallery.css */
+
+.gallery-container {
+  padding: 20px;
+  text-align: center;
+}
+
+.gallery-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+  gap: 20px;
+  margin-top: 20px;
+}
+
+.gallery-item {
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  overflow: hidden;
+  background-color: #fff;
+  transition: transform 0.2s;
+}
+
+.gallery-item:hover {
+  transform: scale(1.02);
+}
+
+.gallery-image {
+  width: 100%;
+  height: 200px;
+  object-fit: cover;
+}
+
+.gallery-info {
+  padding: 10px;
+  text-align: left;
+}
+
+.gallery-info h3 {
+  margin: 0 0 10px 0;
+}
+
+.gallery-info p {
+  margin: 0 0 5px 0;
+  color: #555;
+}
+
+.gallery-info span {
+  display: block;
+  font-size: 0.9em;
+  color: #888;
+}

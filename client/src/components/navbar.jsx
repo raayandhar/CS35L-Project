@@ -1,12 +1,16 @@
+// client/src/components/Navbar.jsx
+
 import React from 'react';
 import { Link } from 'react-router-dom';
 import Login from './login.jsx';
+
 const Navbar = () => {
   const links = [
     { path: "/", label: "Home" },
     { path: "/gallery", label: "Gallery" },
+    { path: "/upload", label: "Upload" },
     { path: "/profile", label: "Profile" },
-    { path: "/generator", label: "Generator"},
+    { path: "/generator", label: "Generator" },
   ];
 
   return (
@@ -16,7 +20,7 @@ const Navbar = () => {
           {links.map((link) => (
             <li key={link.path}>
               <Link to={link.path}>
-                <button className=" bg-transparent  text-stone-600 h-full w-auto py-2 px-4 rounded-xl hover:bg-white hover:border-2 hover:border-stone-600">
+                <button className="bg-transparent text-stone-600 h-full w-auto py-2 px-4 rounded-xl hover:bg-white hover:border-2 hover:border-stone-600">
                   {link.label}
                 </button>
               </Link>
@@ -25,7 +29,7 @@ const Navbar = () => {
         </div>
         
         <li>
-          <Login/>
+          <Login />
         </li>
       </ul>
     </nav>
