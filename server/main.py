@@ -16,6 +16,7 @@ app = Flask(__name__)
 
 CORS(app)
 
+
 # temporary local login DB
 logins = {
     "kylecj21": 'password',
@@ -23,6 +24,7 @@ logins = {
     "Smallberg": 'I<3C++'
 }
 
+print("here", os.getenv('DB_HOST'))
 # Database connection parameters
 DB_CONFIG = {
     'host': os.getenv('DB_HOST'),
@@ -35,13 +37,14 @@ DB_CONFIG = {
 def get_db_connection():
     return psycopg2.connect(**DB_CONFIG)
 
+
 @app.route('/test_db', methods=['GET'])
 def test_db():
     conn = None
     cursor = None
     try:
         conn = get_db_connection()
-        cursor = conn.cursor()
+        cursor = conn.cursor()   #point in the query
 
         # Query for users with the username 'kylecj21'
         cursor.execute("SELECT * FROM users WHERE Username = %s;", ('kylecj21',))
@@ -58,6 +61,7 @@ def test_db():
         if conn is not None:
             conn.close()
 
+            
 
 @app.route('/signup', methods=['POST'])
 def register():
@@ -65,11 +69,36 @@ def register():
     username = data.get('username')
     password = data.get('password')
 
-    if username in logins:
-        return jsonify({"message": "Username taken", "status": 401}), 401
-    else:
-        logins[username] = password
-        return jsonify({"message": "Registration successful", "status": 200}), 200
+    conn = None
+    cursor = None
+
+    try:
+        conn = get_db_connection()
+        cursor = conn.cursor()
+
+        cursor.execute("SELECT * FROM users WHERE Username = %s;", (username,))
+        users = cursor.fetchall()
+        print(users)
+        if(len(users)>0):
+            return jsonify({"message": "Username taken!", "users":[],"status":401}),401
+
+        else:
+            cursor.execute(
+                "INSERT INTO users (Username, Password, Friends) VALUES (%s, %s, %s);",
+                (username, password, [])
+            )
+            conn.commit()
+
+
+            return jsonify({"message": "Database connection successful", "users": users, "status":200}), 200
+    
+    except Exception as e:
+        print(e)
+    finally:
+        if cursor is not None:
+            cursor.close()
+        if conn is not None:
+            conn.close()
 
 
 @app.route('/login', methods=['POST'])
@@ -77,6 +106,7 @@ def login():
     data = request.get_json()
     username = data.get('username')
     password = data.get('password')
+
     print(username,password)
     if username not in logins:
         return jsonify({"message": "User not found", "status": 401}), 401

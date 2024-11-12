@@ -14,13 +14,13 @@ function App() {
   return (
     <SnackbarProvider maxSnack={3}>
       <Router>
-        <Navbar />
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/Gallery" element={<Gallery />} />
           <Route path="/Profile" element={<Profile />} />
           <Route path="/Generator" element={<Generator />} />
           <Route path="/upload" element={<UploadImage />} /> {/* New Route */}
+          <Route path="/Generator"element = {<Generator/>} />
         </Routes>
       </Router>
     </SnackbarProvider>

@@ -2,7 +2,9 @@ import React, { useState, useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { setUser, clearUser } from '../store/reducers/userReducer';
 import { useSnackbar } from 'notistack';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import './switchmodes.css'; 
+import { faUser, faXmark } from '@fortawesome/free-solid-svg-icons';
 
 const Login = () => {
     const dispatch = useDispatch();
@@ -112,15 +114,13 @@ const Login = () => {
 
     return (
         <>
-            <button
-  className="fixed top-4 right-4 bg-white text-stone-600 border-2 border-stone-600 h-auto py-4 px-4 rounded-xl hover:bg-stone-600 hover:text-white transition duration-200 w-1/12"
-  onClick={user ? handleLogout : toggleCanvas}
-
->
-  {user ? 'Logout' : 'Login'}
-</button>
-
-
+            <button canvasOn={showCanvas.toString()}
+                className="login-button"
+                onClick={user ? handleLogout : toggleCanvas}
+            >
+                <FontAwesomeIcon className="open" icon={faUser}/>
+                <FontAwesomeIcon className="close" icon={faXmark}/>
+            </button>
             {showCanvas && (
                 <div className="fixed top-0 left-0 right-0 bottom-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
                     <div className="perspective">
@@ -209,11 +209,11 @@ const Login = () => {
                             </div>
                         </div>
                     </div>
-                    
                 </div>
             )}
         </>
     );
+    
 };
 
 export default Login;
