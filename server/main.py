@@ -16,7 +16,7 @@ app = Flask(__name__)
 
 CORS(app)
 
-# Temporary local login DB
+# temporary local login DB
 logins = {
     "kylecj21": 'password',
     "AleHuerta": 'IRunSlow',
@@ -77,7 +77,7 @@ def login():
     data = request.get_json()
     username = data.get('username')
     password = data.get('password')
-    print(logins)
+    print(username,password)
     if username not in logins:
         return jsonify({"message": "User not found", "status": 401}), 401
     elif username in logins and logins[username] == password:

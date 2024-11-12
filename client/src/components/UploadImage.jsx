@@ -40,25 +40,35 @@ function UploadImage() {
     data.append('uploader', formData.uploader);
 
     try {
-      const response = await fetch(`${process.env.REACT_APP_BACKEND_URL}/upload_image`, {
+      const backendUrl = process.env.REACT_APP_BACKEND_URL;
+      console.log('Backend URL:', backendUrl); // Debugging
+
+      if (!backendUrl) {
+        enqueueSnackbar('Backend URL is not defined.', { variant: 'error' });
+        throw new Error('Backend URL is not defined.');
+      }
+
+      const response = await fetch(`${backendUrl}/upload_image`, {
         method: 'POST',
         body: data,
       });
 
-      const result = await response.json();
-
-      if (response.ok) {
-        enqueueSnackbar('Image uploaded successfully!', { variant: 'success' });
-        setFormData({
-          image: null,
-          title: '',
-          description: '',
-          uploader: '',
-        });
-        // Optionally, redirect or refresh the gallery
-      } else {
-        enqueueSnackbar(`Error: ${result.message}`, { variant: 'error' });
+      // Check if the response is ok (status in the range 200-299)
+      if (!response.ok) {
+        const errorData = await response.json();
+        enqueueSnackbar(`Error: ${errorData.message}`, { variant: 'error' });
+        throw new Error(errorData.message);
       }
+
+      const result = await response.json();
+      enqueueSnackbar('Image uploaded successfully!', { variant: 'success' });
+      setFormData({
+        image: null,
+        title: '',
+        description: '',
+        uploader: '',
+      });
+      // Optionally, redirect or refresh the gallery
     } catch (error) {
       console.error('Error uploading image:', error);
       enqueueSnackbar('An unexpected error occurred.', { variant: 'error' });
