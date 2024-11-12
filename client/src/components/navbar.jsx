@@ -1,5 +1,8 @@
+// client/src/components/Navbar.jsx
+
 import React from 'react';
 import { Link } from 'react-router-dom';
+
 import homeImage from './homeImage.png';
 import galleryImage from './galleryImage.png';
 import profileImage from './profileImage.png';
@@ -15,6 +18,7 @@ const Navbar = ({activated}) => {
   ];
   
   return (
+   
     <nav>
       <div id="nav-links" className={activated ? 'active' : ''}>
         {links.map((link) => (
