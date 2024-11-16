@@ -10,6 +10,12 @@
   grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
   gap: 20px;
   margin-top: 20px;
+  transition: transform 700ms cubic-bezier(.13, .53, .38, .97);
+  overflow: hidden;
+  transform: translateY(0%);
+}
+div[data-nav="true"] .gallery-grid {
+  transform: translateY(-50%);
 }
 
 .gallery-item {

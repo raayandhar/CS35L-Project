@@ -180,7 +180,6 @@ div.generator-div {
     background-image: url('Pulse@1x-1.0s-200px-200px.svg');
     background-size: cover;   
     background-position: center;
-
     z-index: 1000;  
 }
 
@@ -218,9 +217,98 @@ div[data-nav="true"] .main-generator {
     left: 0;
     right: 0;
     bottom: 0;
-    background-color: rgba(0, 0, 0, 0.7);
+    background-color: rgb(156, 151, 151);
     display: flex;
     justify-content: center;
     align-items: center;
     z-index: 1000;
   }
+
+  .modal-title {
+    font-family: 'Roboto', Helvetica, Arial, sans-serif;
+    color: white;
+    margin: 0;
+    font-weight: 500;
+    text-transform: uppercase;
+    font-size: 2.7em;
+    position: absolute;
+    left: 50%;
+    top: 10%;
+    transform: translate(-50%, -50%);  /* Centers the element */
+    width: 60vw;
+    text-shadow: 1px 1px 4px rgba(0, 0, 0, 0.1);
+    text-align: center;  /* Centers the text inside the element */
+  }
+
+  .gallery-button {
+    height: 5rem;
+    width: 5rem;
+    position: absolute;
+    z-index: 1000;
+    left: 58%;
+    bottom: 3rem;
+    transform: translateX(-50%);
+    background-color: rgb(255, 255, 255);
+    border: none;
+    border-radius: 5rem;
+    outline: none;
+    box-shadow: 0rem 0rem 5rem rgba(0 0 0/ 35%);
+    cursor: pointer;
+    transition: transform, background-color;
+    transition-timing-function: ease;
+    transition-duration: 400ms;
+    font-size: 1.75rem;
+  }
+
+  .download-button {
+    height: 5rem;
+    width: 5rem;
+    position: absolute;
+    z-index: 1000;
+    left: 50%;
+    bottom: 3rem;
+    transform: translateX(-50%);
+    background-color: rgb(255, 255, 255);
+    border: none;
+    border-radius: 5rem;
+    outline: none;
+    box-shadow: 0rem 0rem 5rem rgba(0 0 0/ 35%);
+    cursor: pointer;
+    transition: transform, background-color;
+    transition-timing-function: ease;
+    transition-duration: 400ms;
+    font-size: 1.75rem;
+  }
+
+
+  .discard-button {
+    height: 5rem;
+    width: 5rem;
+    position: absolute;
+    z-index: 1000;
+    left: 42%;
+    bottom: 3rem;
+    transform: translateX(-50%);
+    background-color: rgb(255, 255, 255);
+    border: none;
+    border-radius: 5rem;
+    outline: none;
+    box-shadow: 0rem 0rem 5rem rgba(0 0 0/ 35%);
+    cursor: pointer;
+    transition: transform, background-color;
+    transition-timing-function: ease;
+    transition-duration: 400ms;
+    font-size: 1.75rem;
+}
+
+.gallery-button:hover {
+    transform: translateX(-50%) scale(1.04);
+}
+
+.download-button:hover {
+    transform: translateX(-50%) scale(1.04);
+}
+
+.discard-button:hover {
+    transform: translateX(-50%) scale(1.04);
+}
