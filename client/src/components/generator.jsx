@@ -6,6 +6,9 @@ import NavButton from './navbutton.jsx';
 import './generator.css';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faPaperPlane } from '@fortawesome/free-solid-svg-icons';
+import { faTrash } from '@fortawesome/free-solid-svg-icons'; 
+import { faArrowDown } from '@fortawesome/free-solid-svg-icons'; 
+import { faImages } from '@fortawesome/free-solid-svg-icons';
 
 const Generator = () => {
 
@@ -78,14 +81,32 @@ const Generator = () => {
 
                 {generatedImage && !loading && (
                         <div className="modal-overlay">
+                          <h2 className="modal-title">
+                              Image has been generated
+                          </h2>
                             <img 
                                 src={generatedImage}
-                                alt="Generated" 
+                                alt="Generated"
+                                className="max-w-full max-h-full" 
                             />
+                            <a href={generatedImage} download="generated-image.jpg">
+                                <button className="download-button">
+                                    <FontAwesomeIcon className="download-icon" icon={faArrowDown} />
+                                </button>
+                            </a>
+                            <button className='gallery-button'>
+                                <FontAwesomeIcon className="gallery-icon" icon={faImages} />
+                            </button>
+                            <button className="discard-button" onClick={() => setGeneratedImage(null)}>
+                              <FontAwesomeIcon className="discard-icon" icon={faTrash} />
+                          </button>
                         </div>
                     )}  
           </main>
-          <NavButton classname="nav-section" setNavBarOpen={setNavBarOpen} navBarOpen={navBarOpen}/>
+          {!generatedImage && (
+            <NavButton classname="nav-section" setNavBarOpen={setNavBarOpen} navBarOpen={navBarOpen}/>
+          )
+          }
     </div>
   );
 

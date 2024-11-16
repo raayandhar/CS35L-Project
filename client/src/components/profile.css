@@ -1,0 +1,32 @@
+div.profile-div {
+    background-color: rgb(0, 0, 0);
+}
+.custom-main1 {
+    z-index: 2;
+    transition: transform 700ms cubic-bezier(.13, .53, .38, .97);
+    position: relative;
+    overflow: hidden;
+    transform: translateY(0%);
+    background-image: url('2010_mavericks_competition.jpg');
+}
+
+.custom-main2 {
+    z-index: 2;
+    transition: transform 700ms cubic-bezier(.13, .53, .38, .97);
+    overflow: hidden;
+    position: relative;
+    transform: translateY(0%);
+}
+
+div[data-nav="true"] .custom-main2 {
+    transform: translateY(-50%);
+}
+
+div[data-nav="true"] .custom-main1 {
+    transform: translateY(-50%);
+}
+
+
+
+
+

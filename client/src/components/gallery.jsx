@@ -3,10 +3,12 @@
 import React, { useEffect, useState } from 'react';
 import './Gallery.css';
 import { useSnackbar } from 'notistack';
+import NavButton from './navbutton.jsx';
 
 function Gallery() {
   const [images, setImages] = useState([]);
   const { enqueueSnackbar } = useSnackbar();
+  const [navBarOpen, setNavBarOpen] = useState(false);
 
   useEffect(() => {
     const fetchImages = async () => {
@@ -29,7 +31,7 @@ function Gallery() {
   }, [enqueueSnackbar]);
 
   return (
-    <div className="gallery-container">
+    <div className="gallery-container" data-nav={navBarOpen.toString()}>
       <h2>Community Gallery</h2>
       <div className="gallery-grid">
         {images.map((image) => (
@@ -48,6 +50,7 @@ function Gallery() {
           </div>
         ))}
       </div>
+      <NavButton classname="nav-section" setNavBarOpen={setNavBarOpen} navBarOpen={navBarOpen}/>
     </div>
   );
 }
