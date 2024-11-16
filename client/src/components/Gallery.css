@@ -12,6 +12,7 @@
   margin-top: 20px;
   transition: transform 700ms cubic-bezier(.13, .53, .38, .97);
   overflow: hidden;
+  position: relative;
   transform: translateY(0%);
 }
 div[data-nav="true"] .gallery-grid {
