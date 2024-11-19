@@ -138,6 +138,70 @@ def prompt():
     return jsonify({"Generated Image": 1, "image":my_string})
 
 
+# --------------- Add friend function ----------------------------#
+
+@app.route('/add_friend', methods=['POST'])
+def add_friend():
+    data = request.get_json()
+    current_username = data.get('username')  # The user adding a friend
+    friend_username = data.get('friend_username')  # The friend to be added
+
+    conn = None
+    cursor = None
+
+    try:
+        conn = get_db_connection()
+        cursor = conn.cursor()
+
+        # Get the IDs of the current user and the friend
+        cursor.execute("SELECT id FROM users WHERE Username = %s;", (current_username,))
+        current_user = cursor.fetchone()
+
+        cursor.execute("SELECT id FROM users WHERE Username = %s;", (friend_username,))
+        friend_user = cursor.fetchone()
+
+        if not current_user:
+            return jsonify({"message": "Current user not found", "status": 404}), 404
+
+        if not friend_user:
+            return jsonify({"message": "Friend user not found", "status": 404}), 404
+
+        current_user_id = current_user[0]
+        friend_user_id = friend_user[0]
+
+        # Get the current friends list of the user
+        cursor.execute("SELECT Friends FROM users WHERE id = %s;", (current_user_id,))
+        result = cursor.fetchone()
+        friends_list = result[0]
+
+        if friends_list is None:
+            friends_list = []
+        else:
+            friends_list = list(friends_list)
+
+        if friend_user_id in friends_list:
+            return jsonify({"message": "Friend already added", "status": 400}), 400
+
+        # Add the friend's user ID to the friends list
+        friends_list.append(friend_user_id)
+
+        # Update the user's friends list in the database
+        cursor.execute("UPDATE users SET Friends = %s WHERE id = %s;", (friends_list, current_user_id))
+        conn.commit()
+
+        return jsonify({"message": "Friend added successfully", "status": 200}), 200
+
+    except Exception as e:
+        print(f"Error adding friend: {e}")
+        return jsonify({"message": "Failed to add friend", "error": str(e)}), 500
+
+    finally:
+        if cursor:
+            cursor.close()
+        if conn:
+            conn.close()
+
+
 @app.route('/', methods=['GET'])
 def home():
     return jsonify({"message": "Hello, World!"})
