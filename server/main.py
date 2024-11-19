@@ -9,7 +9,9 @@ from psycopg2 import sql
 from dotenv import load_dotenv
 from werkzeug.utils import secure_filename
 import uuid
-
+print()
+print("hereherehere1")
+print()
 load_dotenv()
 
 app = Flask(__name__)
@@ -140,7 +142,7 @@ def prompt():
 
 # --------------- Add friend function ----------------------------#
 
-@app.route('/add_friend', methods=['POST'])
+@app.route('/add-friend', methods=['POST'])
 def add_friend():
     data = request.get_json()
     current_username = data.get('username')  # The user adding a friend
@@ -150,14 +152,15 @@ def add_friend():
     cursor = None
 
     try:
+        print("hereherehere")
         conn = get_db_connection()
         cursor = conn.cursor()
-
+        
         # Get the IDs of the current user and the friend
-        cursor.execute("SELECT id FROM users WHERE Username = %s;", (current_username,))
+        cursor.execute("SELECT userid FROM users WHERE username = %s;", (current_username,))
         current_user = cursor.fetchone()
 
-        cursor.execute("SELECT id FROM users WHERE Username = %s;", (friend_username,))
+        cursor.execute("SELECT userid FROM users WHERE username = %s;", (friend_username,))
         friend_user = cursor.fetchone()
 
         if not current_user:
@@ -170,7 +173,7 @@ def add_friend():
         friend_user_id = friend_user[0]
 
         # Get the current friends list of the user
-        cursor.execute("SELECT Friends FROM users WHERE id = %s;", (current_user_id,))
+        cursor.execute("SELECT friends FROM users WHERE userid = %s;", (current_user_id,))
         result = cursor.fetchone()
         friends_list = result[0]
 
@@ -186,7 +189,7 @@ def add_friend():
         friends_list.append(friend_user_id)
 
         # Update the user's friends list in the database
-        cursor.execute("UPDATE users SET Friends = %s WHERE id = %s;", (friends_list, current_user_id))
+        cursor.execute("UPDATE users SET friends = %s WHERE userid = %s;", (friends_list, current_user_id))
         conn.commit()
 
         return jsonify({"message": "Friend added successfully", "status": 200}), 200
@@ -304,4 +307,4 @@ def get_gallery():
 # ----------------- End of Gallery Endpoints ----------------- #
 
 if __name__ == '__main__':
-    app.run(debug=True)
+    app.run(debug=True, port=8000)

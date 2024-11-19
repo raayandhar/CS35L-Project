@@ -8,6 +8,7 @@ import Navbar from './components/navbar.jsx';
 import Profile from './components/profile.jsx';
 import Generator from './components/generator.jsx';
 import UploadImage from './components/UploadImage.jsx'; // Import the UploadImage component
+import AddFriendTest from './components/test/AddFriendTest.jsx';
 import { SnackbarProvider } from 'notistack';
 
 function App() {
@@ -21,6 +22,7 @@ function App() {
           <Route path="/Generator" element={<Generator />} />
           <Route path="/upload" element={<UploadImage />} /> {/* New Route */}
           <Route path="/Generator"element = {<Generator/>} />
+          <Route path="/test/add-friend" element={<AddFriendTest />} />
         </Routes>
       </Router>
     </SnackbarProvider>
