@@ -3,54 +3,141 @@
 import React, { useEffect, useState } from 'react';
 import './Gallery.css';
 import { useSnackbar } from 'notistack';
-import NavButton from './navbutton.jsx';
 
 function Gallery() {
   const [images, setImages] = useState([]);
+  const [searchTitle, setSearchTitle] = useState('');
+  const [searchUploader, setSearchUploader] = useState('');
+  const [isLoading, setIsLoading] = useState(false);
+  const [page, setPage] = useState(1);
+  const [totalPages, setTotalPages] = useState(1);
   const { enqueueSnackbar } = useSnackbar();
-  const [navBarOpen, setNavBarOpen] = useState(false);
+
+  const limit = 10; // Images per page
+
+  const fetchImages = async (title = '', uploader = '', pageNumber = 1) => {
+    setIsLoading(true);
+    try {
+      let apiUrl = `${process.env.REACT_APP_BACKEND_URL}/gallery?page=${pageNumber}&limit=${limit}`;
+      if (title) {
+        apiUrl += `&title=${encodeURIComponent(title)}`;
+      }
+      if (uploader) {
+        apiUrl += `&uploader=${encodeURIComponent(uploader)}`;
+      }
+
+      const response = await fetch(apiUrl);
+      if (!response.ok) {
+        const errorData = await response.json();
+        enqueueSnackbar(`Error: ${errorData.message}`, { variant: 'error' });
+        throw new Error(errorData.message);
+      }
+
+      const result = await response.json();
+      setImages(result.images);
+      setPage(result.page);
+      setTotalPages(result.total_pages);
+    } catch (error) {
+      console.error('Error fetching images:', error);
+      enqueueSnackbar('Failed to fetch images.', { variant: 'error' });
+    } finally {
+      setIsLoading(false);
+    }
+  };
 
   useEffect(() => {
-    const fetchImages = async () => {
-      try {
-        const response = await fetch(`${process.env.REACT_APP_BACKEND_URL}/gallery`);
-        const result = await response.json();
-
-        if (response.ok) {
-          setImages(result.images);
-        } else {
-          enqueueSnackbar(`Error: ${result.message}`, { variant: 'error' });
-        }
-      } catch (error) {
-        console.error('Error fetching images:', error);
-        enqueueSnackbar('Failed to fetch images.', { variant: 'error' });
-      }
-    };
-
     fetchImages();
-  }, [enqueueSnackbar]);
+  }, []);
+
+  const handleSearch = (e) => {
+    e.preventDefault();
+    setPage(1); // Reset to first page on new search
+    fetchImages(searchTitle, searchUploader, 1);
+  };
+
+  const handleNextPage = () => {
+    if (page < totalPages) {
+      const nextPage = page + 1;
+      setPage(nextPage);
+      fetchImages(searchTitle, searchUploader, nextPage);
+    }
+  };
+
+  const handlePreviousPage = () => {
+    if (page > 1) {
+      const prevPage = page - 1;
+      setPage(prevPage);
+      fetchImages(searchTitle, searchUploader, prevPage);
+    }
+  };
 
   return (
-    <div className="gallery-container" data-nav={navBarOpen.toString()}>
+    <div className="gallery-container">
       <h2>Community Gallery</h2>
+
+      {/* Search Form */}
+      <form onSubmit={handleSearch} className="search-form">
+        <div className="search-group">
+          <input
+            type="text"
+            placeholder="Search by title..."
+            value={searchTitle}
+            onChange={(e) => setSearchTitle(e.target.value)}
+            className="search-input"
+          />
+        </div>
+        <div className="search-group">
+          <input
+            type="text"
+            placeholder="Search by uploader..."
+            value={searchUploader}
+            onChange={(e) => setSearchUploader(e.target.value)}
+            className="search-input"
+          />
+        </div>
+        <button type="submit" className="search-button" disabled={isLoading}>
+          {isLoading ? 'Searching...' : 'Search'}
+        </button>
+      </form>
+
+      {/* Gallery Grid */}
       <div className="gallery-grid">
-        {images.map((image) => (
-          <div key={image.id} className="gallery-item">
-            <img
-              src={`data:image/png;base64,${image.image}`}
-              alt={image.title}
-              className="gallery-image"
-            />
-            <div className="gallery-info">
-              <h3>{image.title}</h3>
-              <p>{image.description}</p>
-              <span>Uploaded by: {image.uploader}</span>
-              <span>On: {new Date(image.timestamp).toLocaleDateString()}</span>
+        {images.length > 0 ? (
+          images.map((image) => (
+            <div key={image.id} className="gallery-item">
+              <img
+                src={`data:image/png;base64,${image.image}`}
+                alt={image.title}
+                className="gallery-image"
+                loading="lazy"
+              />
+              <div className="gallery-info">
+                <h3>{image.title}</h3>
+                <p>{image.description}</p>
+                <span>Uploaded by: {image.uploader}</span>
+                <span>On: {new Date(image.timestamp).toLocaleDateString()}</span>
+              </div>
             </div>
-          </div>
-        ))}
+          ))
+        ) : (
+          <p>No images found.</p>
+        )}
       </div>
-      <NavButton classname="nav-section" setNavBarOpen={setNavBarOpen} navBarOpen={navBarOpen}/>
+
+      {/* Pagination Controls */}
+      {totalPages > 1 && (
+        <div className="pagination-controls">
+          <button onClick={handlePreviousPage} disabled={page === 1 || isLoading}>
+            Previous
+          </button>
+          <span>
+            Page {page} of {totalPages}
+          </span>
+          <button onClick={handleNextPage} disabled={page === totalPages || isLoading}>
+            Next
+          </button>
+        </div>
+      )}
     </div>
   );
 }

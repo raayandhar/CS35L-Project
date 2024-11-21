@@ -252,7 +252,7 @@ def upload_image():
         return jsonify({"message": "Image uploaded successfully", "image_id": image_id}), 201
 
     except Exception as e:
-        print(f"Error uploading image: {e}")
+        logger.error(f"Error uploading image: {e}", exc_info=True)
         return jsonify({"message": "Failed to upload image", "error": str(e)}), 500
 
     finally:
@@ -261,25 +261,59 @@ def upload_image():
         if conn:
             conn.close()
 
-
 @app.route('/gallery', methods=['GET'])
 def get_gallery():
     """
     Endpoint to retrieve all images in the gallery.
+    Supports optional search by title and uploader.
+    Query Parameters:
+        - title: (optional) string to search in image titles.
+        - uploader: (optional) string to search by uploader's name.
+        - page: (optional) integer for pagination (default=1).
+        - limit: (optional) integer for items per page (default=10).
     Returns a list of images with metadata and Base64-encoded image data.
     """
     try:
         conn = get_db_connection()
         cursor = conn.cursor()
 
-        select_query = "SELECT id, image_data, title, description, uploader, timestamp FROM images ORDER BY timestamp DESC;"
-        cursor.execute(select_query)
+        title_search = request.args.get('title', '').strip()
+        uploader_search = request.args.get('uploader', '').strip()
+        page = int(request.args.get('page', 1))
+        limit = int(request.args.get('limit', 10))
+        offset = (page - 1) * limit
+
+        conditions = []
+        params = []
+
+        if title_search:
+            conditions.append("title ILIKE %s")
+            params.append(f"%{title_search}%")
+
+        if uploader_search:
+            conditions.append("uploader ILIKE %s")
+            params.append(f"%{uploader_search}%")
+
+        where_clause = ""
+        if conditions:
+            where_clause = "WHERE " + " AND ".join(conditions)
+
+        select_query = sql.SQL("""
+            SELECT id, image_data, title, description, uploader, timestamp
+            FROM images
+            {where_clause}
+            ORDER BY timestamp DESC
+            LIMIT %s OFFSET %s;
+        """).format(where_clause=sql.SQL(where_clause))
+
+        params.extend([limit, offset])
+
+        cursor.execute(select_query, params)
         rows = cursor.fetchall()
 
         images = []
         for row in rows:
             image_id, image_data, title, description, uploader, timestamp = row
-            # Encode binary data to Base64
             base64_image = base64.b64encode(image_data).decode('utf-8')
             images.append({
                 "id": image_id,
@@ -290,10 +324,25 @@ def get_gallery():
                 "timestamp": timestamp
             })
 
-        return jsonify({"images": images}), 200
+        count_query = sql.SQL("""
+            SELECT COUNT(*) FROM images
+            {where_clause};
+        """).format(where_clause=sql.SQL(where_clause))
+
+        cursor.execute(count_query, params[:-2])
+        total_count = cursor.fetchone()[0]
+        total_pages = (total_count + limit - 1) // limit
+
+        return jsonify({
+            "images": images,
+            "page": page,
+            "limit": limit,
+            "total_pages": total_pages,
+            "total_count": total_count
+        }), 200
 
     except Exception as e:
-        print(f"Error retrieving gallery: {e}")
+        logger.error(f"Error retrieving gallery: {e}", exc_info=True)
         return jsonify({"message": "Failed to retrieve gallery", "error": str(e)}), 500
 
     finally:
