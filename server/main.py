@@ -140,7 +140,7 @@ def prompt():
 
 # --------------- Add friend function ----------------------------#
 
-@app.route('/add_friend', methods=['POST'])
+@app.route('/add-friend', methods=['POST'])
 def add_friend():
     data = request.get_json()
     current_username = data.get('username')  # The user adding a friend
@@ -150,6 +150,7 @@ def add_friend():
     cursor = None
 
     try:
+        print("hereherehere")
         conn = get_db_connection()
         cursor = conn.cursor()
         print("HEREISREASRIUBKFEWHBSIKUBEFS")
@@ -304,4 +305,4 @@ def get_gallery():
 # ----------------- End of Gallery Endpoints ----------------- #
 
 if __name__ == '__main__':
-    app.run(debug=True)
+    app.run(debug=True, port=8000)

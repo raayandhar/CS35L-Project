@@ -6,6 +6,7 @@ import reportWebVitals from './reportWebVitals';
 import Navbar from './components/navbar.jsx';
 import { Provider } from 'react-redux';
 import store from './store/store';
+import AddFriendTest from './components/test/AddFriendTest';
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <React.StrictMode>
