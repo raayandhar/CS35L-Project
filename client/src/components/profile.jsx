@@ -16,7 +16,6 @@ const Profile = () => {
     // Function to fetch images
     const fetchUserImages = async (targetUsername) => {
         const imagesPerPage = 10; // Adjust as needed
-        
         try {
             console.log("this is: ", targetUsername);
             const response = await fetch(`http://127.0.0.1:8000/gallery?uploader=${targetUsername}&limit=${imagesPerPage}&page=1`, {
@@ -49,7 +48,10 @@ const Profile = () => {
             fetchUserImages(user.name); // Fetch images for logged-in user
             console.log(userImages);
         }
-    }, [username, user?.username]);
+        else{
+            console.log("not ready yet");
+        }
+    }, [username, user?.name]); 
 
     // Show the profile for the specified username if it exists
     if (username && externalUser) {
