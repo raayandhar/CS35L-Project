@@ -1,9 +1,14 @@
 import React, { useState } from 'react';
+import { useSnackbar } from 'notistack';
 
 const ProfileContent = ({ user, images }) => {
     // console.log("hey")
     // console.log(images)
     const [activeTab, setActiveTab] = useState('recentImages'); // 'recentImages' or 'friends'
+    const [friendUsername, setFriendUsername] = useState(''); // State for the search input
+    
+    const { enqueueSnackbar } = useSnackbar(); // Access snackbar for notifications
+
     const getRandomPastelColor = (username) => {
         const colors = {
             red: '#FFB3B3',
@@ -23,6 +28,40 @@ const ProfileContent = ({ user, images }) => {
         return colors[colorKeys[index]];
     };
     
+    // Function to search and add a friend
+    const handleSearchFriend = async () => {
+        if (!friendUsername) {
+            enqueueSnackbar('Please enter a username to search.', { variant: 'error', autoHideDuration: 3000 });
+            return;
+        }
+
+        const backendUrl = process.env.REACT_APP_BACKEND_URL || 'http://127.0.0.1:5000';
+
+        try {
+            const response = await fetch(`${backendUrl}/add-friend`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    username: user?.name,
+                    friend_username: friendUsername,
+                }),
+            });
+
+            const data = await response.json();
+
+            if (response.ok) {
+                enqueueSnackbar('Friend added successfully!', { variant: 'success', autoHideDuration: 3000 });
+            } else {
+                enqueueSnackbar(data.message || 'Failed to add friend.', { variant: 'error', autoHideDuration: 3000 });
+            }
+        } catch (error) {
+            console.error('Error searching friend:', error.message || error);
+            enqueueSnackbar('An error occurred. Please try again.', { variant: 'error', autoHideDuration: 3000 });
+        }
+    };
+
     return (
         <div className="p-6 bg-white rounded-lg shadow-md mx-auto w-screen h-screen">
             {/* Profile Header */}
@@ -36,11 +75,22 @@ const ProfileContent = ({ user, images }) => {
                     {user.name.charAt(0).toUpperCase()}
                 </div>
                 <h1 className="text-2xl font-bold mb-4">{user.name}</h1>
-                <input
-                    type="text"
-                    placeholder="Search to add friends..."
-                    className="p-2 border border-gray-300 rounded w-full mb-6"
-                />
+                {/* Search for Friend */}
+                <div className="flex items-center w-full mb-6">
+                    <input
+                        type="text"
+                        placeholder="Search to add friends..."
+                        value={friendUsername}
+                        onChange={(e) => setFriendUsername(e.target.value)}
+                        className="p-2 border border-gray-300 rounded flex-1"
+                    />
+                    <button
+                        onClick={handleSearchFriend}
+                        className="ml-2 px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600"
+                    >
+                        Add Friend
+                    </button>
+                </div>
             </div>
 
             {/* Tabs */}

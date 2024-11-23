@@ -11,7 +11,7 @@ Currently, the project has basic react and flask implementation. You will need a
 In a seperate terminal:
 
 1. ```cd server```
-2. ```python -m venv venv```
+2. ```python3.11 -m venv venv```
 3. ```source venv/bin/activate```
 4. ```pip install -r requirements.txt```
 5. ```python main.py```

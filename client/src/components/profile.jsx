@@ -11,6 +11,7 @@ const Profile = () => {
     const [navBarOpen, setNavBarOpen] = useState(false);
     const [externalUser, setExternalUser] = useState(null);
     const [userImages, setUserImages] = useState([]);
+    
     const user = useSelector((state) => state.user.user); // Access logged-in user
 
     // Function to fetch images
@@ -19,7 +20,7 @@ const Profile = () => {
         
         try {
             console.log("this is: ", targetUsername);
-            const response = await fetch(`http://127.0.0.1:8000/gallery?uploader=${targetUsername}&limit=${imagesPerPage}&page=1`, {
+            const response = await fetch(`http://127.0.0.1:5000/gallery?uploader=${targetUsername}&limit=${imagesPerPage}&page=1`, {
                 method: 'GET',
                 headers: {
                     'Content-Type': 'application/json',
@@ -39,6 +40,9 @@ const Profile = () => {
         }
     };
 
+    
+
+
     useEffect(() => {
         if (username) {
             console.log("username: " + username);
@@ -49,7 +53,7 @@ const Profile = () => {
             fetchUserImages(user.name); // Fetch images for logged-in user
             console.log(userImages);
         }
-    }, [username, user?.username]);
+    }, [username, user?.name]);
 
     // Show the profile for the specified username if it exists
     if (username && externalUser) {
@@ -84,5 +88,6 @@ const Profile = () => {
         </div>
     );
 };
+
 
 export default Profile;

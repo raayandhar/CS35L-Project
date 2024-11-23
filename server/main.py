@@ -150,10 +150,10 @@ def add_friend():
     cursor = None
 
     try:
-        print("hereherehere")
+        #print("hereherehere")
         conn = get_db_connection()
         cursor = conn.cursor()
-        print("HEREISREASRIUBKFEWHBSIKUBEFS")
+        
         # Get the IDs of the current user and the friend
         cursor.execute("SELECT userid FROM users WHERE username = %s;", (current_username,))
         current_user = cursor.fetchone()
@@ -354,4 +354,4 @@ def get_gallery():
 # ----------------- End of Gallery Endpoints ----------------- #
 
 if __name__ == '__main__':
-    app.run(debug=True, port=8000)
+    app.run(debug=True, port=5000)
