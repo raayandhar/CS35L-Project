@@ -1,6 +1,8 @@
 import React, { useState } from 'react';
 
-const ProfileContent = ({ user }) => {
+const ProfileContent = ({ user, images }) => {
+    // console.log("hey")
+    // console.log(images)
     const [activeTab, setActiveTab] = useState('recentImages'); // 'recentImages' or 'friends'
     const getRandomPastelColor = (username) => {
         const colors = {
@@ -60,11 +62,30 @@ const ProfileContent = ({ user }) => {
             {/* Tab Content dummy data for now*/}
             <div className="grid grid-cols-3 gap-4">
                 {activeTab === 'recentImages' && (
-                    [...Array(9)].map((_, idx) => (
-                        <div key={idx} className="h-32 bg-gray-200 rounded flex justify-center items-center">
-                            Image {idx + 1}
-                        </div>
-                    ))
+                    images && images.length > 0 ? (
+                        images.map((image, idx) => (
+                            <div key={image.id || idx} className="h-32 bg-gray-200 rounded overflow-hidden">
+                                {image.image ? (
+                                    <img 
+                                        src={`data:image/jpeg;base64,${image.image}`}
+                                        alt={image.title || `Image ${idx + 1}`}
+                                        className="w-full h-full object-cover"
+                                    />
+                                ) : (
+                                    <div className="h-full w-full flex justify-center items-center">
+                                        Image {idx + 1}
+                                    </div>
+                                )}
+                                {image.title && (
+                                    <div className="p-2 bg-black bg-opacity-50 text-white text-sm absolute bottom-0 w-full">
+                                        {image.title}
+                                    </div>
+                                )}
+                            </div>
+                        ))
+                    ) : (
+                        <p className="col-span-3 text-center text-gray-500">No images uploaded yet.</p>
+                    )
                 )}
                 {activeTab === 'friends' && (
                     (user.friends && user.friends.length > 0) ? (

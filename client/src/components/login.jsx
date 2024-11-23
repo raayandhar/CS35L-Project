@@ -36,6 +36,14 @@ const Login = () => {
             window.removeEventListener('keydown', handleKeyDown);
         };
     }, [showCanvas, isLogin, username, password, confirmPassword]);
+
+    // Second useEffect - for fetching images when user changes
+    /*useEffect(() => {
+        if (user?.username) {
+            console.log('User changed, fetching images for:', user.username);
+            fetchUserImages();
+        }
+    }, [user]);*/
     const handleLogin = () => {
         fetch('http://127.0.0.1:8000/login', {
             method: 'POST',
@@ -51,7 +59,7 @@ const Login = () => {
             } else {
                 enqueueSnackbar('Login Successful', { variant: 'success', autoHideDuration: 3000 });
                 dispatch(setUser({ userID: res["users"][0][0], username : res["users"][0][1], friends : res["users"][3] }));
-                fetchUserImages(); //fetch images right after logging in
+                // fetchUserImages(); //fetch images right after logging in
                 setShowCanvas(false);
             }
         })
@@ -62,11 +70,14 @@ const Login = () => {
 
     //11-22
     const fetchUserImages = async () => {
-        if (!user?.username) return;
+        if (user?.username) {
+            console.log('User changed, fetching images for:', user.username); // Add this
+            fetchUserImages();
+        }
         const imagesPerPage = 2;
-        
         try {
-            const response = await fetch(`http://127.0.0.1:5000/gallery?uploader=${user.username}&limit=${imagesPerPage}&page=1`, {
+            console.log("called backend"); //test
+            const response = await fetch(`http://127.0.0.1:8000/gallery?uploader=${user.username}&limit=${imagesPerPage}&page=1`, {
                 method: 'GET',
                 headers: {
                     'Content-Type': 'application/json',
