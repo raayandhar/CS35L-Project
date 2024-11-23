@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 
-const ProfileContent = ({ user, images }) => {
+const ProfileContent = ({ user, images, friends }) => {
     // console.log("hey")
     // console.log(images)
     const [activeTab, setActiveTab] = useState('recentImages'); // 'recentImages' or 'friends'
@@ -59,12 +59,12 @@ const ProfileContent = ({ user, images }) => {
                 </button>
             </div>
 
-            {/* Tab Content dummy data for now*/}
+            {/* Tab Content*/}
             <div className="grid grid-cols-3 gap-4">
                 {activeTab === 'recentImages' && (
                     images && images.length > 0 ? (
                         images.map((image, idx) => (
-                            <div key={image.id || idx} className="h-32 bg-gray-200 rounded overflow-hidden">
+                            <div key={image.id || idx} className="h-32 bg-gray-200 rounded overflow-hidden relative">
                                 {image.image ? (
                                     <img 
                                         src={`data:image/jpeg;base64,${image.image}`}
@@ -88,10 +88,10 @@ const ProfileContent = ({ user, images }) => {
                     )
                 )}
                 {activeTab === 'friends' && (
-                    (user.friends && user.friends.length > 0) ? (
-                        user.friends.map((friend, idx) => (
+                    (friends && friends.length > 0) ? (
+                        friends.map((friend, idx) => (
                             <div key={idx} className="h-32 bg-gray-200 rounded flex justify-center items-center">
-                                Friend {friend}
+                                {friend}
                             </div>
                         ))
                     ) : (
