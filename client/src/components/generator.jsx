@@ -20,7 +20,7 @@ const Generator = () => {
     const handleForm = async (input) => {
         setLoading(true);
         input.preventDefault();
-        const response = await fetch('http://127.0.0.1:5000/prompt_recv', {
+        const response = await fetch('http://127.0.0.1:8000/prompt_recv', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
