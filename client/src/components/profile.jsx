@@ -11,13 +11,12 @@ const Profile = () => {
     const [navBarOpen, setNavBarOpen] = useState(false);
     const [externalUser, setExternalUser] = useState(null);
     const [userImages, setUserImages] = useState([]);
-    
+    const [friends, setFriends] = useState([]);
     const user = useSelector((state) => state.user.user); // Access logged-in user
 
     // Function to fetch images
     const fetchUserImages = async (targetUsername) => {
         const imagesPerPage = 10; // Adjust as needed
-        
         try {
             console.log("this is: ", targetUsername);
             const response = await fetch(`http://127.0.0.1:5000/gallery?uploader=${targetUsername}&limit=${imagesPerPage}&page=1`, {
@@ -40,8 +39,32 @@ const Profile = () => {
         }
     };
 
-    
-
+    // function to fetch friends
+    const fetchFriends = async (targetUsername) => {
+        console.log("getting friends of ", targetUsername);
+        try {
+            // First get the user's data to get their friends array
+            const response = await fetch(`http://127.0.0.1:5000/get_friends`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    username: targetUsername
+                })
+            });
+            
+            const data = await response.json();
+            if (response.ok) {
+                setFriends(data.friends);
+                console.log('Fetched Friends:', data.friends);
+            } else {
+                console.error('Failed to fetch friends:', data.message);
+            }
+        } catch (error) {
+            console.error('Error fetching friends:', error);
+        }
+    };
 
     useEffect(() => {
         if (username) {
@@ -51,9 +74,14 @@ const Profile = () => {
         } else if (user?.name) {
             console.log("name of user: " + user.name);
             fetchUserImages(user.name); // Fetch images for logged-in user
+            fetchFriends(user.name); // Add this line
             console.log(userImages);
+            console.log(friends);
         }
-    }, [username, user?.name]);
+        else{
+            console.log("not ready yet");
+        }
+    }, [username, user?.name]); 
 
     // Show the profile for the specified username if it exists
     if (username && externalUser) {
@@ -83,11 +111,10 @@ const Profile = () => {
     // Default: Show the logged-in user's profile
     return (
         <div className="profile-div bg-white w-full" data-nav={navBarOpen.toString()}>
-            <ProfileContent user={user} images={userImages}/>
+            <ProfileContent user={user} images={userImages} friends={friends}/>
             <NavButton classname="nav-section" setNavBarOpen={setNavBarOpen} navBarOpen={navBarOpen} />
         </div>
     );
 };
-
 
 export default Profile;
