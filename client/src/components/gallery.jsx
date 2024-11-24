@@ -3,6 +3,8 @@
 import React, { useEffect, useState } from 'react';
 import './Gallery.css';
 import { useSnackbar } from 'notistack';
+import { useNavigate } from 'react-router-dom';
+import debounce from 'lodash.debounce';
 
 function Gallery() {
   const [images, setImages] = useState([]);
@@ -12,6 +14,7 @@ function Gallery() {
   const [page, setPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
   const { enqueueSnackbar } = useSnackbar();
+  const navigate = useNavigate();
 
   const limit = 10; // Images per page
 
@@ -51,7 +54,7 @@ function Gallery() {
 
   const handleSearch = (e) => {
     e.preventDefault();
-    setPage(1); // Reset to first page on new search
+    setPage(1);
     fetchImages(searchTitle, searchUploader, 1);
   };
 
@@ -69,6 +72,10 @@ function Gallery() {
       setPage(prevPage);
       fetchImages(searchTitle, searchUploader, prevPage);
     }
+  };
+
+  const handleGoBack = () => {
+    navigate(-1);
   };
 
   return (
@@ -138,6 +145,11 @@ function Gallery() {
           </button>
         </div>
       )}
+
+      {/* "Go Back" Button at the Bottom */}
+      <button onClick={handleGoBack} className="go-back-button">
+        Go Back
+      </button>
     </div>
   );
 }
