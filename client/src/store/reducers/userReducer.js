@@ -2,7 +2,11 @@ const SET_USER = 'SET_USER';
 const CLEAR_USER = 'CLEAR_USER';
 
 const initialState = {
-  user: null, 
+  user: {
+    id: null,     // Ensure default structure
+    name: '',     // Default as an empty string
+    friends: [],  // Default as an empty array
+  },
 };
 
 const userReducer = (state = initialState, action) => {
@@ -10,13 +14,22 @@ const userReducer = (state = initialState, action) => {
     case SET_USER:
       return {
         ...state,
-        user: action.payload,
+        user: {
+          id: action.payload?.userID ?? null,        // Use payload or default value
+          name: action.payload?.username ?? '',     // Use payload or default value
+          friends: action.payload?.friends ?? [], // Use payload or default value
+        },
       };
     case CLEAR_USER:
-      return {
+    return {
         ...state,
-        user: null, 
-      };
+        user: {
+            id: null,
+            name: null,
+            friends: [],
+        },
+    };
+
     default:
       return state;
   }

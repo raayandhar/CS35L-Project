@@ -15,6 +15,8 @@ const Login = () => {
     const [password, setPassword] = useState('');
     const [confirmPassword, setConfirmPassword] = useState('');
     const { enqueueSnackbar } = useSnackbar();
+
+
     useEffect(() => {
         const handleKeyDown = (event) => {
             if (event.key === 'Escape' && showCanvas) {
@@ -34,6 +36,14 @@ const Login = () => {
             window.removeEventListener('keydown', handleKeyDown);
         };
     }, [showCanvas, isLogin, username, password, confirmPassword]);
+
+    // Second useEffect - for fetching images when user changes
+    /*useEffect(() => {
+        if (user?.username) {
+            console.log('User changed, fetching images for:', user.username);
+            fetchUserImages();
+        }
+    }, [user]);*/
     const handleLogin = () => {
         fetch('http://127.0.0.1:5000/login', {
             method: 'POST',
@@ -48,7 +58,8 @@ const Login = () => {
                 enqueueSnackbar(res.message, { variant: 'error', autoHideDuration: 3000 });
             } else {
                 enqueueSnackbar('Login Successful', { variant: 'success', autoHideDuration: 3000 });
-                dispatch(setUser({ userID: 1, username }));
+                dispatch(setUser({ userID: res["users"][0][0], username : res["users"][0][1], friends : res["users"][3] }));
+                // fetchUserImages(); //fetch images right after logging in
                 setShowCanvas(false);
             }
         })
@@ -56,6 +67,51 @@ const Login = () => {
             enqueueSnackbar(error.message, { variant: 'error', autoHideDuration: 3000 });
         });
     };
+
+    //11-22
+    const fetchUserImages = async () => {
+        if (user?.username) {
+            console.log('User changed, fetching images for:', user.username); // Add this
+            fetchUserImages();
+        }
+        const imagesPerPage = 2;
+        try {
+            console.log("called backend"); //test
+            const response = await fetch(`http://127.0.0.1:5000/gallery?uploader=${user.username}&limit=${imagesPerPage}&page=1`, {
+                method: 'GET',
+                headers: {
+                    'Content-Type': 'application/json',
+                }
+            });
+            
+            const data = await response.json();
+            
+            if (response.ok) {
+                console.log('Fetched Images Data:', {
+                    totalImages: data.total_count,
+                    totalPages: data.total_pages,
+                    imagesPerPage: data.limit
+                });
+
+                // Log detailed information for each image
+                data.images.forEach((image, index) => {
+                    console.log(`Image ${index + 1}:`, {
+                        id: image.id,
+                        title: image.title,
+                        description: image.description,
+                        uploader: image.uploader,
+                        timestamp: new Date(image.timestamp).toLocaleString(),
+                        imageSize: image.image.length + ' bytes'  // Size of base64 string
+                    });
+                });
+            } else {
+                console.error('Failed to fetch images:', data.message);
+            }
+        } catch (error) {
+            console.error('Error fetching images:', error);
+        }
+    };
+
 
     const handleSignup = () => {
         if (password !== confirmPassword) {
@@ -79,7 +135,7 @@ const Login = () => {
                 enqueueSnackbar(res.message, { variant: 'error', autoHideDuration: 3000 });
             } else {
                 enqueueSnackbar('Signup Successful', { variant: 'success', autoHideDuration: 3000 });
-                dispatch(setUser({ userID: 1, username }));
+                dispatch(setUser({ userID: res["users"][0][0], username : res["users"][0][1], friends : res["users"][3] }));
                 setShowCanvas(false);
             }
         })
@@ -89,8 +145,10 @@ const Login = () => {
     };
 
     const handleLogout = () => {
-        dispatch(clearUser());
         enqueueSnackbar('Logged out successfully', { variant: 'success', autoHideDuration: 3000 });
+        console.log("User logged out")
+
+        dispatch(clearUser());
     };
 
     const toggleCanvas = () => {
@@ -116,7 +174,7 @@ const Login = () => {
         <>
             <button canvasOn={showCanvas.toString()}
                 className="login-button"
-                onClick={user ? handleLogout : toggleCanvas}
+                onClick={user && user.id? handleLogout : toggleCanvas}
             >
                 <FontAwesomeIcon className="open" icon={faUser}/>
                 <FontAwesomeIcon className="close" icon={faXmark}/>

@@ -19,6 +19,7 @@ function App() {
           <Route path="/" element={<Home />} />
           <Route path="/Gallery" element={<Gallery />} />
           <Route path="/Profile" element={<Profile />} />
+          <Route path="/Profile/:username" element={<Profile />} />
           <Route path="/Generator" element={<Generator />} />
           <Route path="/upload" element={<UploadImage />} /> {/* New Route */}
           <Route path="/Generator"element = {<Generator/>} />

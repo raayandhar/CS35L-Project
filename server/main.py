@@ -207,6 +207,54 @@ def add_friend():
 def home():
     return jsonify({"message": "Hello, World!"})
 
+# --------------- Get friend function ----------------------------#
+
+@app.route('/get_friends', methods=['POST'])
+def get_friends():
+    data = request.get_json()
+    username = data.get('username')
+    
+    conn = None
+    cursor = None
+    
+    try:
+        conn = get_db_connection()
+        cursor = conn.cursor()
+        
+        # First get the user's friends array
+        cursor.execute(
+            "SELECT friends FROM users WHERE username = %s;",
+            (username,)
+        )
+        result = cursor.fetchone()
+        
+        if not result or not result[0]:
+            return jsonify({"friends": [], "message": "No friends found"}), 200
+            
+        friend_ids = result[0]  # This is the array of friend IDs
+        
+        # Now get the usernames for all these IDs
+        friend_ids_tuple = tuple(friend_ids)  # Convert list to tuple for SQL IN clause
+        if len(friend_ids) == 1:
+            # Special case for single ID to avoid SQL syntax error
+            cursor.execute("SELECT username FROM users WHERE userid = %s", (friend_ids[0],))
+        else:
+            cursor.execute("SELECT username FROM users WHERE userid IN %s", (friend_ids_tuple,))
+        
+        friends = [row[0] for row in cursor.fetchall()]
+        
+        return jsonify({"friends": friends}), 200
+        
+    except Exception as e:
+        print(f"Error fetching friends: {e}")
+        return jsonify({"message": "Failed to fetch friends", "error": str(e)}), 500
+        
+    finally:
+        if cursor:
+            cursor.close()
+        if conn:
+            conn.close()
+
 # ----------------- Community Gallery Endpoints ----------------- #
 
 @app.route('/upload_image', methods=['POST'])
@@ -354,4 +402,4 @@ def get_gallery():
 # ----------------- End of Gallery Endpoints ----------------- #
 
 if __name__ == '__main__':
-    app.run(debug=True, port=8000)
+    app.run(debug=True, port=5000)
