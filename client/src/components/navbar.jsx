@@ -3,10 +3,10 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 
-import homeImage from './homeImage.png';
-import galleryImage from './galleryImage.png';
-import profileImage from './profileImage.png';
-import generateImage from './generateImage.png';
+import homeImage from './images/homeImage.png';
+import galleryImage from './images/galleryImage.png';
+import profileImage from './images/profileImage.png';
+import generateImage from './images/generateImage.png';
 import './navbar.css';
 
 const Navbar = ({activated}) => {

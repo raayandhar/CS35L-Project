@@ -5,7 +5,7 @@ main.main-generator {
     width: 100%;
     margin: 0;
     background-color: rgb(255, 255, 255);
-    background-image: url('./Big Sky_SkiSnowboardPowder2022_44-2100x1399-8d9bde80-050e-4211-b0a2-5dba31a5f795.webp');
+    background-image: url('./images/Big Sky_SkiSnowboardPowder2022_44-2100x1399-8d9bde80-050e-4211-b0a2-5dba31a5f795.webp');
     background-size: 110% auto;  /* Zoomed out - increase percentage to zoom out more */
     background-position: -80% center;  /* Shifted further right - increase percentage to move more right */
 }
@@ -164,7 +164,7 @@ div.generator-div {
 .imagebar {
     width: 30%;
     height: 100%;
-    background-image: url('./galleryImage2.jpg');
+    background-image: url('./images/galleryImage2.jpg');
     background-size: cover;
     background-position: center;
     min-height: 300px;
@@ -177,7 +177,7 @@ div.generator-div {
     transform: translate(-50%, -50%);
     width: 100px;  
     height: 100px;  
-    background-image: url('Pulse@1x-1.0s-200px-200px.svg');
+    background-image: url('./images/Pulse@1x-1.0s-200px-200px.svg');
     background-size: cover;   
     background-position: center;
     z-index: 1000;  
@@ -311,4 +311,77 @@ div[data-nav="true"] .main-generator {
 
 .discard-button:hover {
     transform: translateX(-50%) scale(1.04);
+}
+
+
+.download-tooltip {
+    position: absolute;
+    font-family: 'Roboto', Helvetica, Arial, sans-serif;
+    z-index: 3000;
+    left: 50%;
+    top: 77%;
+    color: white;
+    transform: translate(-50%, -50%) scale(0.9);
+    transition: opacity 0.3s ease;
+    font-size: 1.30rem;
+    text-align: center;
+    opacity: 0; 
+    background-color: rgb(134, 134, 134); 
+    border-radius: 50px; 
+    padding: 2vh 3vh;
+    transition: opacity 0.5s ease, transform 0.3s ease; 
+    font-weight: 400;
+    text-shadow: 1px 1px 4px rgba(0, 0, 0, 0.2);
+}
+
+.download-button:hover + h2.download-tooltip {
+    opacity: 90%;
+}
+
+.gallery-tooltip {
+    position: absolute;
+    font-family: 'Roboto', Helvetica, Arial, sans-serif;
+    z-index: 3000;
+    left: 58%;
+    top: 77%;
+    color: white;
+    transform: translate(-50%, -50%) scale(0.9);
+    transition: opacity 0.3s ease;
+    font-size: 1.30rem;
+    text-align: center;
+    opacity: 0; 
+    background-color: rgb(134, 134, 134); 
+    border-radius: 50px; 
+    padding: 2vh 3vh;
+    transition: opacity 0.5s ease, transform 0.3s ease; 
+    font-weight: 400;
+    text-shadow: 1px 1px 4px rgba(0, 0, 0, 0.2);
+}
+
+.gallery-button:hover + h2.gallery-tooltip {
+    opacity: 90%;
+}
+
+.discard-tooltip {
+    position: absolute;
+    font-family: 'Roboto', Helvetica, Arial, sans-serif;
+    z-index: 3000;
+    left: 42%;
+    top: 77%;
+    color: white;
+    transform: translate(-50%, -50%) scale(0.9);
+    transition: opacity 0.3s ease;
+    font-size: 1.30rem;
+    text-align: center;
+    opacity: 0; 
+    background-color: rgb(134, 134, 134); 
+    border-radius: 50px; 
+    padding: 2vh 3vh;
+    transition: opacity 0.5s ease, transform 0.3s ease; 
+    font-weight: 400;
+    text-shadow: 1px 1px 4px rgba(0, 0, 0, 0.2);
+}
+
+.discard-button:hover + h2.discard-tooltip {
+    opacity: 90%;
 }
