@@ -1,7 +1,6 @@
   // NewPage.jsx
 import React from 'react';
 import { useState } from 'react';
-import gif from './loadbar.gif'
 import NavButton from './navbutton.jsx';
 import './generator.css';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -20,7 +19,7 @@ const Generator = () => {
     const handleForm = async (input) => {
         setLoading(true);
         input.preventDefault();
-        const response = await fetch('http://127.0.0.1:5000/prompt_recv', {
+        const response = await fetch('http://127.0.0.1:8000/prompt_recv', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
@@ -93,13 +92,22 @@ const Generator = () => {
                                 <button className="download-button">
                                     <FontAwesomeIcon className="download-icon" icon={faArrowDown} />
                                 </button>
+                                <h2 className="download-tooltip">
+                                download
+                            </h2>
                             </a>
                             <button className='gallery-button'>
                                 <FontAwesomeIcon className="gallery-icon" icon={faImages} />
                             </button>
+                            <h2 className="gallery-tooltip">
+                                upload to gallery
+                            </h2>
                             <button className="discard-button" onClick={() => setGeneratedImage(null)}>
                               <FontAwesomeIcon className="discard-icon" icon={faTrash} />
                           </button>
+                          <h2 className="discard-tooltip">
+                                discard image
+                            </h2>
                         </div>
                     )}  
           </main>

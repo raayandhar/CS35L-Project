@@ -7,7 +7,7 @@ div.profile-div {
     position: relative;
     overflow: hidden;
     transform: translateY(0%);
-    background-image: url('2010_mavericks_competition.jpg');
+    background-image: url('./images/2010_mavericks_competition.jpg');
 }
 
 .custom-main2 {

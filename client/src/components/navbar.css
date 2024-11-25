@@ -13,10 +13,11 @@
 
 #nav-links .nav-link .nav-link-image {
     width: max(20vw, 400px);
-    aspect-ratio: 1.8 / 1;
-    margin-top: 0.75rem;
+    aspect-ratio: 1.6 / 1;
+    margin-top: 0.5rem;
     border-radius: 2%;
     object-fit: cover;
+    object-position: center 5%;
 }
 
 #nav-links .nav-link {
