@@ -45,7 +45,7 @@ const Login = () => {
         }
     }, [user]);*/
     const handleLogin = () => {
-        fetch('http://127.0.0.1:8000/login', {
+        fetch('http://127.0.0.1:5000/login', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
@@ -77,7 +77,7 @@ const Login = () => {
         const imagesPerPage = 2;
         try {
             console.log("called backend"); //test
-            const response = await fetch(`http://127.0.0.1:8000/gallery?uploader=${user.username}&limit=${imagesPerPage}&page=1`, {
+            const response = await fetch(`http://127.0.0.1:5000/gallery?uploader=${user.username}&limit=${imagesPerPage}&page=1`, {
                 method: 'GET',
                 headers: {
                     'Content-Type': 'application/json',
@@ -122,7 +122,7 @@ const Login = () => {
             enqueueSnackbar('Please fill in all fields', { variant: 'error', autoHideDuration: 3000 });
             return;
         }
-        fetch('http://127.0.0.1:8000/signup', {
+        fetch('http://127.0.0.1:5000/signup', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',

@@ -19,7 +19,7 @@ const Profile = () => {
         const imagesPerPage = 10; // Adjust as needed
         try {
             console.log("this is: ", targetUsername);
-            const response = await fetch(`http://127.0.0.1:8000/gallery?uploader=${targetUsername}&limit=${imagesPerPage}&page=1`, {
+            const response = await fetch(`http://127.0.0.1:5000/gallery?uploader=${targetUsername}&limit=${imagesPerPage}&page=1`, {
                 method: 'GET',
                 headers: {
                     'Content-Type': 'application/json',
@@ -44,7 +44,7 @@ const Profile = () => {
         console.log("getting friends of ", targetUsername);
         try {
             // First get the user's data to get their friends array
-            const response = await fetch(`http://127.0.0.1:8000/get_friends`, {
+            const response = await fetch(`http://127.0.0.1:5000/get_friends`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
