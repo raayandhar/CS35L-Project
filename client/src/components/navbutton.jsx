@@ -18,7 +18,9 @@ const NavButton = ({ setNavBarOpen, navBarOpen}) => {
         <FontAwesomeIcon className="open" icon={faBars} />
         <FontAwesomeIcon className="close" icon={faXmark} />
       </button>
-      
+      <h2 className="navtoggle-tooltip">
+            navigation
+        </h2>
       <div className="login-wrapper">
         <Login className="login-wrapper" />
       </div>

@@ -179,6 +179,9 @@ const Login = () => {
                 <FontAwesomeIcon className="open" icon={faUser}/>
                 <FontAwesomeIcon className="close" icon={faXmark}/>
             </button>
+            <h2 className="login-tooltip">
+                login/logout
+            </h2>
             {showCanvas && (
                 <div className="fixed top-0 left-0 right-0 bottom-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
                     <div className="perspective">
