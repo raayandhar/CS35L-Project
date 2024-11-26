@@ -29,7 +29,6 @@ DB_CONFIG = {
 def get_db_connection():
     return psycopg2.connect(**DB_CONFIG)
 
-            
 
 @app.route('/signup', methods=['POST'])
 def register():
@@ -58,7 +57,7 @@ def register():
 
 
             return jsonify({"message": "Database connection successful", "users": users, "status":200}), 200
-    
+
     except Exception as e:
         print(e)
     finally:
@@ -402,4 +401,4 @@ def get_gallery():
 # ----------------- End of Gallery Endpoints ----------------- #
 
 if __name__ == '__main__':
-    app.run(debug=True, port=5000)
+    app.run(debug=True, port=8000)
