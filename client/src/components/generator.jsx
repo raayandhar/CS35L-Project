@@ -1,19 +1,27 @@
 // client/src/components/Generator.jsx
 
 import React, { useState } from 'react';
+import { useSelector } from 'react-redux';
+import { useSnackbar } from 'notistack';
 import NavButton from './navbutton.jsx';
 import './generator.css';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faPaperPlane, faTrash, faArrowDown, faImages } from '@fortawesome/free-solid-svg-icons';
 
 const Generator = () => {
-  // State variables
   const [prompt, setPrompt] = useState('');
   const [generatedImage, setGeneratedImage] = useState(null);
   const [loading, setLoading] = useState(false);
   const [navBarOpen, setNavBarOpen] = useState(false);
-  const [uploading, setUploading] = useState(false); // Indicates if upload is in progress
-  const [uploadStatus, setUploadStatus] = useState(''); // Stores upload status messages
+  const [uploading, setUploading] = useState(false);
+  const [uploadStatus, setUploadStatus] = useState('');
+
+  const user = useSelector((state) => state.user.user);
+
+  const { enqueueSnackbar } = useSnackbar();
+
+  // Debug!!
+  console.log("Current User:", user);
 
   /**
    * Handles the form submission to generate an image based on the prompt.
@@ -22,7 +30,7 @@ const Generator = () => {
   const handleForm = async (event) => {
     event.preventDefault();
     setLoading(true);
-    setUploadStatus(''); // Reset upload status when generating a new image
+    setUploadStatus('');
 
     try {
       // Send the prompt to the backend to generate the image
@@ -37,6 +45,7 @@ const Generator = () => {
       if (!response.ok) {
         console.error("HTTP error:", response.status);
         setUploadStatus('Failed to generate image. Please try again.');
+        enqueueSnackbar('Failed to generate image. Please try again.', { variant: 'error', autoHideDuration: 3000 });
         setLoading(false);
         return;
       }
@@ -45,9 +54,11 @@ const Generator = () => {
       const imageData = `data:image/png;base64,${image_recv.image}`;
       setGeneratedImage(imageData);
       console.log("Set generated image to:", imageData);
+      enqueueSnackbar('Image generated successfully!', { variant: 'success', autoHideDuration: 3000 });
     } catch (error) {
       console.error("Error generating image:", error);
       setUploadStatus('An error occurred while generating the image.');
+      enqueueSnackbar('An error occurred while generating the image.', { variant: 'error', autoHideDuration: 3000 });
     } finally {
       setLoading(false);
     }
@@ -61,6 +72,7 @@ const Generator = () => {
     if (!generatedImage) {
       console.log("No image to upload.");
       setUploadStatus('No image to upload.');
+      enqueueSnackbar('No image to upload.', { variant: 'warning', autoHideDuration: 3000 });
       return;
     }
 
@@ -75,7 +87,12 @@ const Generator = () => {
       formData.append('image', file);
       formData.append('title', prompt.trim().substring(0, 30));
       formData.append('description', prompt);
-      formData.append('uploader', 'AutoUploader'); // Needs to be replaced!!
+
+      if (user && user.name) {
+        formData.append('uploader', user.name);
+      } else {
+        formData.append('uploader', 'Anonymous');
+      }
 
       const backendUrl = "http://127.0.0.1:8000";
 
@@ -94,15 +111,19 @@ const Generator = () => {
         }
         console.error("Upload failed:", errorMessage);
         setUploadStatus(errorMessage);
+        enqueueSnackbar(errorMessage, { variant: 'error', autoHideDuration: 3000 });
         return;
       }
 
       const result = await response.json();
       console.log("Image uploaded successfully:", result);
       setUploadStatus('Upload successful!');
+      enqueueSnackbar('Image uploaded successfully!', { variant: 'success', autoHideDuration: 3000 });
+
     } catch (error) {
       console.error("Error uploading image:", error);
       setUploadStatus('An error occurred during upload.');
+      enqueueSnackbar('An error occurred during upload.', { variant: 'error', autoHideDuration: 3000 });
     } finally {
       setUploading(false);
       setTimeout(() => setUploadStatus(''), 3000);
