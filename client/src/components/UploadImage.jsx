@@ -1,10 +1,10 @@
 // client/src/components/UploadImage.jsx
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import './UploadImage.css';
 import { useSnackbar } from 'notistack';
 
-function UploadImage() {
+function UploadImage({ autoUploadData }) {
   const [formData, setFormData] = useState({
     image: null,
     title: '',
@@ -13,6 +13,16 @@ function UploadImage() {
   });
   const [isUploading, setIsUploading] = useState(false);
   const { enqueueSnackbar } = useSnackbar();
+
+  // Handle automatic upload when autoUploadData is provided
+  useEffect(() => {
+    if (autoUploadData) {
+      const { image, title, description, uploader } = autoUploadData;
+      setFormData({ image, title, description, uploader });
+      handleAutoUpload(image, title, description, uploader);
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [autoUploadData]);
 
   const handleChange = (e) => {
     const { name, value, files } = e.target;
@@ -31,17 +41,25 @@ function UploadImage() {
       return;
     }
 
+    await uploadImage(formData.image, formData.title, formData.description, formData.uploader);
+  };
+
+  const handleAutoUpload = async (imageFile, title, description, uploader) => {
+    await uploadImage(imageFile, title, description, uploader);
+  };
+
+  const uploadImage = async (imageFile, title, description, uploader) => {
     setIsUploading(true);
 
     const data = new FormData();
-    data.append('image', formData.image);
-    data.append('title', formData.title);
-    data.append('description', formData.description);
-    data.append('uploader', formData.uploader);
+    data.append('image', imageFile);
+    data.append('title', title);
+    data.append('description', description);
+    data.append('uploader', uploader);
 
     try {
       // const backendUrl = process.env.REACT_APP_BACKEND_URL;
-      //I don't know why the .env is not found, so I commented the line above and added this line
+      // I don't know why the .env is not found, so I commented the line above and added this line
       const backendUrl = "http://127.0.0.1:8000";
       console.log('Backend URL:', backendUrl); // Debugging
 
@@ -82,57 +100,60 @@ function UploadImage() {
   return (
     <div className="upload-container">
       <h2>Upload to Gallery</h2>
-      <form onSubmit={handleSubmit} className="upload-form">
-        <div className="form-group">
-          <label htmlFor="image">Select Image:</label>
-          <input
-            type="file"
-            name="image"
-            accept="image/*"
-            onChange={handleChange}
-            required
-          />
-        </div>
+      {/* Render the form only if not auto-uploading */}
+      {!autoUploadData && (
+        <form onSubmit={handleSubmit} className="upload-form">
+          <div className="form-group">
+            <label htmlFor="image">Select Image:</label>
+            <input
+              type="file"
+              name="image"
+              accept="image/*"
+              onChange={handleChange}
+              required
+            />
+          </div>
 
-        <div className="form-group">
-          <label htmlFor="title">Title:</label>
-          <input
-            type="text"
-            name="title"
-            value={formData.title}
-            onChange={handleChange}
-            placeholder="Enter image title"
-            required
-          />
-        </div>
+          <div className="form-group">
+            <label htmlFor="title">Title:</label>
+            <input
+              type="text"
+              name="title"
+              value={formData.title}
+              onChange={handleChange}
+              placeholder="Enter image title"
+              required
+            />
+          </div>
 
-        <div className="form-group">
-          <label htmlFor="description">Description:</label>
-          <textarea
-            name="description"
-            value={formData.description}
-            onChange={handleChange}
-            placeholder="Enter image description"
-            required
-          ></textarea>
-        </div>
+          <div className="form-group">
+            <label htmlFor="description">Description:</label>
+            <textarea
+              name="description"
+              value={formData.description}
+              onChange={handleChange}
+              placeholder="Enter image description"
+              required
+            ></textarea>
+          </div>
 
-        <div className="form-group">
-          <label htmlFor="uploader">Your Name:</label>
-          <input
-            type="text"
-            name="uploader"
-            value={formData.uploader}
-            onChange={handleChange}
-            placeholder="Enter your name"
-            required
-          />
-        </div>
+          <div className="form-group">
+            <label htmlFor="uploader">Your Name:</label>
+            <input
+              type="text"
+              name="uploader"
+              value={formData.uploader}
+              onChange={handleChange}
+              placeholder="Enter your name"
+              required
+            />
+          </div>
 
-        <button type="submit" className="upload-button" disabled={isUploading}>
-          {isUploading ? 'Uploading...' : 'Upload Image'}
-        </button>
-      </form>
+          <button type="submit" className="upload-button" disabled={isUploading}>
+            {isUploading ? 'Uploading...' : 'Upload Image'}
+          </button>
+        </form>
+      )}
     </div>
   );
 }

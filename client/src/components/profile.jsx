@@ -25,9 +25,9 @@ const Profile = () => {
                     'Content-Type': 'application/json',
                 }
             });
-            
+
             const data = await response.json();
-            
+
             if (response.ok) {
                 console.log('Fetched Images Data:', data.images);
                 setUserImages(data.images); // Store the fetched images in state
@@ -83,7 +83,6 @@ const Profile = () => {
         }
     }, [username, user?.name]); 
 
-    // Show the profile for the specified username if it exists
     if (username && externalUser) {
         return (
             <div className="profile-div" data-nav={navBarOpen.toString()}>
