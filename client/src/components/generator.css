@@ -6,8 +6,8 @@ main.main-generator {
     margin: 0;
     background-color: rgb(255, 255, 255);
     background-image: url('./images/Big Sky_SkiSnowboardPowder2022_44-2100x1399-8d9bde80-050e-4211-b0a2-5dba31a5f795.webp');
-    background-size: 110% auto;  /* Zoomed out - increase percentage to zoom out more */
-    background-position: -80% center;  /* Shifted further right - increase percentage to move more right */
+    background-size: cover;
+    background-position: -80% center;  
 }
 
 div.generator-div {
