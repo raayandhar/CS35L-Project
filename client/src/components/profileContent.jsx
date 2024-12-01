@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { useSnackbar } from 'notistack';
 import { Link, useParams, useNavigate } from 'react-router-dom';
 
-const ProfileContent = ({ user, images, friends, isOwnProfile }) => {
+const ProfileContent = ({ user, images, friends, isOwnProfile, friends }) => {
     // console.log("hey")
     // console.log(images)
     const [activeTab, setActiveTab] = useState('recentImages'); // 'recentImages' or 'friends'

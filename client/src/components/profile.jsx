@@ -93,7 +93,6 @@ const Profile = () => {
         } else if (user?.name) {
             console.log("name of user: " + user.name);
             fetchUserImages(user.name); // Fetch images for logged-in user
-            fetchFriends(user.name); // Add this line
             console.log(userImages);
             console.log(friends);
         }
