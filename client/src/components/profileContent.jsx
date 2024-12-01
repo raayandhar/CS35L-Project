@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { useSnackbar } from 'notistack';
 import { Link, useParams, useNavigate } from 'react-router-dom';
 
-const ProfileContent = ({ user, images, friends }) => {
+const ProfileContent = ({ user, images, friends, isOwnProfile }) => {
     // console.log("hey")
     // console.log(images)
     const [activeTab, setActiveTab] = useState('recentImages'); // 'recentImages' or 'friends'
@@ -10,6 +10,8 @@ const ProfileContent = ({ user, images, friends }) => {
     const { username } = useParams(); // Get username from URL params
     const navigate = useNavigate(); // Hook for programmatic navigation
     const { enqueueSnackbar } = useSnackbar(); // Access snackbar for notifications
+
+    console.log("match: ", isOwnProfile);
 
     const getRandomPastelColor = (username) => {
         const colors = {
@@ -87,7 +89,7 @@ const ProfileContent = ({ user, images, friends }) => {
                     
 
                 {/* Search for Friend */}
-                {activeTab === 'friends' && (
+                {isOwnProfile === true && activeTab === 'friends' && (
                     <div className="flex items-center w-full mb-6">
                         <input
                             type="text"
