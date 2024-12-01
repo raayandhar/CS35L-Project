@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { useSnackbar } from 'notistack';
 import { Link, useParams, useNavigate } from 'react-router-dom';
 
-const ProfileContent = ({ user, images, friends, isOwnProfile, friends }) => {
+const ProfileContent = ({ user, images, friends, isOwnProfile }) => {
     // console.log("hey")
     // console.log(images)
     const [activeTab, setActiveTab] = useState('recentImages'); // 'recentImages' or 'friends'
@@ -129,7 +129,7 @@ const ProfileContent = ({ user, images, friends, isOwnProfile, friends }) => {
                 {activeTab === 'recentImages' && (
                     images && images.length > 0 ? (
                         images.map((image, idx) => (
-                            <div key={image.id || idx} className="h-32 bg-gray-200 rounded overflow-hidden relative">
+                            <div key={image.id || idx} className="h-32 bg-gray-200 rounded overflow-hidden relative relative">
                                 {image.image ? (
                                     <img
                                         src={`data:image/jpeg;base64,${image.image}`}
