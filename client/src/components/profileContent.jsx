@@ -8,7 +8,6 @@ const ProfileContent = ({ user, images, friends, isOwnProfile }) => {
     const [activeTab, setActiveTab] = useState('recentImages'); // 'recentImages' or 'friends'
     const [friendUsername, setFriendUsername] = useState(''); // State for the search input
     const { username } = useParams(); // Get username from URL params
-    const navigate = useNavigate(); // Hook for programmatic navigation
     const { enqueueSnackbar } = useSnackbar(); // Access snackbar for notifications
 
     console.log("match: ", isOwnProfile);
@@ -107,7 +106,23 @@ const ProfileContent = ({ user, images, friends, isOwnProfile }) => {
                     </div>
                 )}
             </div>
-
+            <div className="border-b border-gray-200 mb-4">
+            {/* Button to navigate to own profile */}
+            
+            {!isOwnProfile && (
+                <>
+                {console.log("Navigating to:", `/profile/${user.name}`)}
+                
+                <Link to={`/profile/${user.name}`} >
+                    <button
+                        className="px-4 py-2 font-semibold text-gray-500 border border-gray-300 rounded-md hover:bg-gray-200 transition duration-200"
+                    >
+                        Go to My Profile
+                    </button>
+                 </Link>
+                 </>
+            )}
+            </div>
             {/* Tabs */}
             <div className="border-b border-gray-200 mb-4">
                 <button
@@ -116,14 +131,17 @@ const ProfileContent = ({ user, images, friends, isOwnProfile }) => {
                 >
                     Recent Images
                 </button>
-                <button
-                    className={`px-4 py-2 font-semibold ${activeTab === 'friends' ? 'border-b-2 border-blue-500 text-blue-500' : 'text-gray-500'}`}
-                    onClick={() => setActiveTab('friends')}
-                >
-                    Friends
-                </button>
-            </div>
+                {isOwnProfile && (
+                    <button
+                        className={`px-4 py-2 font-semibold ${activeTab === 'friends' ? 'border-b-2 border-blue-500 text-blue-500' : 'text-gray-500'}`}
+                        onClick={() => setActiveTab('friends')}
+                    >
+                        Friends
+                    </button>
+                )}
 
+            </div>
+            
             {/* Tab Content */}
             <div className="grid grid-cols-3 gap-4">
                 {activeTab === 'recentImages' && (
@@ -147,7 +165,7 @@ const ProfileContent = ({ user, images, friends, isOwnProfile }) => {
                         <p className="col-span-3 text-center text-gray-500">No images uploaded yet.</p>
                     )
                 )}
-                {activeTab === 'friends' && (
+                {isOwnProfile === true && activeTab === 'friends' && (
                     (friends && friends.length > 0) ? (
                         friends.map((friend, idx) => (
                             <Link
