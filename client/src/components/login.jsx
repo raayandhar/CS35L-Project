@@ -57,8 +57,9 @@ const Login = () => {
             if (res.status !== 200) {
                 enqueueSnackbar(res.message, { variant: 'error', autoHideDuration: 3000 });
             } else {
+                console.log("result of users" + res["users"][0][3])
                 enqueueSnackbar('Login Successful', { variant: 'success', autoHideDuration: 3000 });
-                dispatch(setUser({ userID: res["users"][0][0], username : res["users"][0][1], friends : res["users"][3] }));
+                dispatch(setUser({ userID: res["users"][0][0], username : res["users"][0][1], friends : res["users"][0][3] }));
                 // fetchUserImages(); //fetch images right after logging in
                 setShowCanvas(false);
             }

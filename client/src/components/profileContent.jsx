@@ -1,6 +1,8 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useSnackbar } from 'notistack';
 import { Link, useParams, useNavigate } from 'react-router-dom';
+import { useSelector, useDispatch } from 'react-redux';
+import { setUser, clearUser } from '../store/reducers/userReducer';
 
 const ProfileContent = ({ user, images, friends, isOwnProfile }) => {
     // console.log("hey")
@@ -9,9 +11,10 @@ const ProfileContent = ({ user, images, friends, isOwnProfile }) => {
     const [friendUsername, setFriendUsername] = useState(''); // State for the search input
     const { username } = useParams(); // Get username from URL params
     const { enqueueSnackbar } = useSnackbar(); // Access snackbar for notifications
+    const dispatch = useDispatch();
 
-    console.log("match: ", isOwnProfile);
-
+    const storedUser = useSelector((state) => state.user.user); 
+    const [updatedUsers, setUpdatedUsers] = useState([])
     const getRandomPastelColor = (username) => {
         const colors = {
             red: '#FFB3B3',
@@ -42,8 +45,40 @@ const ProfileContent = ({ user, images, friends, isOwnProfile }) => {
         return colors[colorKeys[index]];
     };
     
+    // redux store houses a list of IDs of friends. need to map them to usernames by fetching info
+    const toNames = async () => {
+        const backendUrl = 'http://127.0.0.1:8000/id-to-username';
 
-    
+        try {
+            const response = await fetch(`${backendUrl}`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    ids: storedUser.friends,
+                }),
+            });
+
+            const data = await response.json();
+
+            if (response.ok) {
+                return data.usernames
+            } else {
+                console.error('Failed to fetch friends:', data.message);
+                enqueueSnackbar('Failed to fetch friends.', { variant: 'error', autoHideDuration: 3000 });
+            }
+        } catch (error) {
+            console.error('Error fetching friends:', error);
+            enqueueSnackbar('An error occurred. Please try again.', { variant: 'error', autoHideDuration: 3000 });
+        }
+    }
+
+    useEffect(() => {
+        toNames().then((usernames) => {
+            setUpdatedUsers(usernames)
+        })
+    }, [storedUser.friends])
 
     // Function to search and add a friend
     const handleSearchFriend = async () => {
@@ -70,9 +105,8 @@ const ProfileContent = ({ user, images, friends, isOwnProfile }) => {
 
             if (response.ok) {
                 enqueueSnackbar('Friend added successfully!', { variant: 'success', autoHideDuration: 3000 });
-                if (friends) {
-                    friends.push(friendUsername);
-                }
+                setUpdatedUsers((prevUsers) => [...prevUsers, friendUsername]);
+                
             } else {
                 enqueueSnackbar(data.message || 'Failed to add friend.', { variant: 'error', autoHideDuration: 3000 });
             }
@@ -81,7 +115,6 @@ const ProfileContent = ({ user, images, friends, isOwnProfile }) => {
             enqueueSnackbar('An error occurred. Please try again.', { variant: 'error', autoHideDuration: 3000 });
         }
     };
-
     return (
         <div className="p-6 bg-white rounded-lg shadow-md mx-auto w-screen h-screen">
             {/* Profile Header */}
@@ -182,8 +215,8 @@ const ProfileContent = ({ user, images, friends, isOwnProfile }) => {
                 {isOwnProfile === true && activeTab === 'friends' && (
                     <div className="col-span-3 h-[400px] overflow-y-auto"> {/* Grid wrapper for friends */}
                         <div className="grid grid-cols-3 gap-4"> {/* Maintain 3 columns per row */}
-                            {friends && friends.length > 0 ? (
-                                friends.map((friend, idx) => {
+                            {updatedUsers && updatedUsers.length > 0 ? (
+                                updatedUsers.map((friend, idx) => {
                                     const bgColor = getRandomPastelColor(friend);
                                     return (
                                         <Link
