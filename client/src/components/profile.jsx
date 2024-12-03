@@ -13,6 +13,8 @@ const Profile = () => {
     const [userImages, setUserImages] = useState([]);
     const [friends, setFriends] = useState([]);
     const user = useSelector((state) => state.user.user); // Access logged-in user
+    const [isOwnProfile, setIsOwnProfile] = useState(false);
+
 
     // Function to fetch images
     const fetchUserImages = async (targetUsername) => {
@@ -66,7 +68,24 @@ const Profile = () => {
         }
     };
 
+    const isOwn = (tabname, loginname) => {
+        if(user?.name){
+            setIsOwnProfile(tabname === loginname);
+            if(!username){
+                setIsOwnProfile(true);
+            }
+            console.log("check own: ", isOwnProfile);
+            console.log("username is: ", tabname);
+            console.log("user.name is: ", loginname);
+        }
+        else{
+            setIsOwnProfile(false);
+        }
+    }
+
+    
     useEffect(() => {
+        isOwn(username, user.name);
         if (username) {
             console.log("username: " + username);
             setExternalUser({ id: 1, name: username, friends: [1, 3, 7] });
@@ -86,7 +105,7 @@ const Profile = () => {
     if (username && externalUser) {
         return (
             <div className="profile-div" data-nav={navBarOpen.toString()}>
-                <ProfileContent user={externalUser} />
+                <ProfileContent user={externalUser} isOwnProfile={isOwnProfile}/>
                 <NavButton classname="nav-section" setNavBarOpen={setNavBarOpen} navBarOpen={navBarOpen} />
             </div>
         );
@@ -107,10 +126,11 @@ const Profile = () => {
         );
     }
 
+
     // Default: Show the logged-in user's profile
     return (
         <div className="profile-div bg-white w-full" data-nav={navBarOpen.toString()}>
-            <ProfileContent user={user} images={userImages} friends={friends}/>
+            <ProfileContent user={user} images={userImages} friends={friends} isOwnProfile={isOwnProfile}/>
             <NavButton classname="nav-section" setNavBarOpen={setNavBarOpen} navBarOpen={navBarOpen} />
         </div>
     );

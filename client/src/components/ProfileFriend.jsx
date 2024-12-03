@@ -36,6 +36,7 @@ const ProfileFriend = ({ friendUsername }) => {
                 const data = await response.json();
 
                 if (response.ok) {
+                    console.log("here", response)
                     setFriendImages(data.images);
                 } else {
                     console.error('Failed to fetch images:', data.message);
@@ -68,25 +69,34 @@ const ProfileFriend = ({ friendUsername }) => {
             {/* Gallery */}
             <div className="grid grid-cols-3 gap-4">
                 {friendImages.length > 0 ? (
-                    friendImages.map((image, idx) => (
-                        <div key={image.id || idx} className="h-32 bg-gray-200 rounded overflow-hidden relative">
-                            {image.image ? (
-                                <img
-                                    src={`data:image/jpeg;base64,${image.image}`}
-                                    alt={image.title || `Image ${idx + 1}`}
-                                    className="w-full h-full object-cover"
-                                />
-                            ) : (
-                                <div className="h-full w-full flex justify-center items-center">
-                                    Image {idx + 1}
-                                </div>
-                            )}
-                        </div>
-                    ))
+                    friendImages.map((image, idx) => {
+                        const bgColor = getRandomPastelColor(image.username || `default${idx}`);
+                        // return each image block to render more effeciently
+                        return (
+                            <div
+                                key={image.id || idx}
+                                className="h-32 rounded overflow-hidden relative"
+                                style={{ backgroundColor: bgColor }} 
+                            >
+                                {image.image ? (
+                                    <img
+                                        src={`data:image/jpeg;base64,${image.image}`}
+                                        alt={image.title || `Image ${idx + 1}`}
+                                        className="w-full h-full object-cover"
+                                    />
+                                ) : (
+                                    <div className="h-full w-full flex justify-center items-center">
+                                        Image {idx + 1}
+                                    </div>
+                                )}
+                            </div>
+                        );
+                    })
                 ) : (
                     <p className="col-span-3 text-center text-gray-500">No images uploaded yet.</p>
                 )}
             </div>
+
         </div>
     );
 };
