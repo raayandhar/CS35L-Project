@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useSnackbar } from 'notistack';
 import { Link, useParams, useNavigate } from 'react-router-dom';
+import { useLocation } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
 import { setUser, clearUser } from '../store/reducers/userReducer';
 
@@ -9,8 +10,9 @@ const ProfileContent = ({ user, images, friends, isOwnProfile }) => {
     // console.log(images)
     const [activeTab, setActiveTab] = useState('recentImages'); // 'recentImages' or 'friends'
     const [friendUsername, setFriendUsername] = useState(''); // State for the search input
-    const { username } = useParams(); // Get username from URL params
+    const { username } = useParams();
     const { enqueueSnackbar } = useSnackbar(); // Access snackbar for notifications
+    const location = useLocation();
     const dispatch = useDispatch();
 
     const storedUser = useSelector((state) => state.user.user); 
@@ -115,6 +117,11 @@ const ProfileContent = ({ user, images, friends, isOwnProfile }) => {
             enqueueSnackbar('An error occurred. Please try again.', { variant: 'error', autoHideDuration: 3000 });
         }
     };
+
+    useEffect(() => {
+        setActiveTab('recentImages');
+    }, [location.pathname]);
+
     return (
         <div className="p-6 bg-white rounded-lg shadow-md mx-auto w-screen h-screen">
             {/* Profile Header */}
