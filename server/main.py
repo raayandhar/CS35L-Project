@@ -190,7 +190,7 @@ def add_friend():
         cursor.execute("UPDATE users SET friends = %s WHERE userid = %s;", (friends_list, current_user_id))
         conn.commit()
 
-        return jsonify({"message": "Friend added successfully", "status": 200}), 200
+        return jsonify({"message": "Friend added successfully", "status": 200, "friend_id": friend_user_id}), 200
 
     except Exception as e:
         print(f"Error adding friend: {e}")
@@ -255,6 +255,26 @@ def get_friends():
         if conn:
             conn.close()
 
+@app.route('/id-to-username', methods=['POST'])
+def id_to_username():
+    data = request.get_json()    
+    ids = data.get('ids')
+    if not ids:
+        return jsonify({"message": "No IDs provided"}), 400
+    usernames = []
+    conn = None 
+    cursor = None
+    try:
+        conn = get_db_connection()
+        cursor = conn.cursor()
+        for id in ids:
+            cursor.execute("SELECT username FROM users WHERE userid = %s;", (id,))
+            result = cursor.fetchone()
+            if result:
+                usernames.append(result[0])
+        return jsonify({"usernames": usernames}), 200
+    except Exception as e:
+        return jsonify({"message": "Failed to fetch usernames", "error": str(e)}), 500
 # ----------------- Community Gallery Endpoints ----------------- #
 
 @app.route('/upload_image', methods=['POST'])
