@@ -54,8 +54,11 @@ def register():
                 (username, password, [])
             )
             conn.commit()
-
-
+            cursor.execute("SELECT * FROM users WHERE Username = %s;", (username,))
+            new_user = cursor.fetchone()
+            users = [
+                [new_user[0], new_user[1], new_user[2]]
+            ]
             return jsonify({"message": "Database connection successful", "users": users, "status":200}), 200
 
     except Exception as e:
@@ -149,10 +152,8 @@ def add_friend():
     cursor = None
 
     try:
-        print("hereherehere")
         conn = get_db_connection()
         cursor = conn.cursor()
-        print("HEREISREASRIUBKFEWHBSIKUBEFS")
         # Get the IDs of the current user and the friend
         cursor.execute("SELECT userid FROM users WHERE username = %s;", (current_username,))
         current_user = cursor.fetchone()
