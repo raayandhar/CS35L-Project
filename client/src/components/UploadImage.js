@@ -36,7 +36,7 @@ function UploadImage() {
     data.append('description', formData.description);
     data.append('uploader', formData.uploader);
 
-    fetch('http://localhost:5000/upload_image', {
+    fetch('http://localhost:8000/upload_image', {
       method: 'POST',
       body: data
     })
