@@ -90,8 +90,7 @@ const Profile = () => {
             console.log("username: " + username);
             setExternalUser({ id: 1, name: username, friends: [1, 3, 7] });
             fetchUserImages(username); // Fetch images for external user
-            fetchFriends(username); // Add this line
-
+            console.log("useImages: ", userImages);
         } else if (user?.name) {
             console.log("name of user: " + user.name);
             fetchUserImages(user.name); // Fetch images for logged-in user
@@ -105,9 +104,10 @@ const Profile = () => {
     }, [username, user?.name]); 
 
     if (username && externalUser) {
+        console.log("passing")
         return (
             <div className="profile-div" data-nav={navBarOpen.toString()}>
-                <ProfileContent user={externalUser} images = {userImages} friends = {friends} isOwnProfile={isOwnProfile}/>
+                <ProfileContent user={externalUser} isOwnProfile={isOwnProfile} images = {userImages} friends = {friends}/>
                 <NavButton classname="nav-section" setNavBarOpen={setNavBarOpen} navBarOpen={navBarOpen} />
             </div>
         );
