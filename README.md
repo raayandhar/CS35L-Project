@@ -1,6 +1,9 @@
 # FluxDiffusionImageGen
 Full-Stack application with python + flask + pytorch backend, react + JS frontend + tailwind CSS
 
+# Acknowledgments
+  The backend diffusion model is from: https://github.com/rupeshs/fastsdcpu
+
 # Getting Started
 Currently, the project has basic react and flask implementation. You will need a seperate terminal to run server and client
 
