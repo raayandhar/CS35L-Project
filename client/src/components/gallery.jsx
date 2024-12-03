@@ -21,7 +21,7 @@ function Gallery() {
   const fetchImages = async (title = '', uploader = '', pageNumber = 1) => {
     setIsLoading(true);
     try {
-      let apiUrl = `${process.env.REACT_APP_BACKEND_URL}/gallery?page=${pageNumber}&limit=${limit}`;
+      let apiUrl = `http://127.0.0.1:8000/gallery?page=${pageNumber}&limit=${limit}`;
       if (title) {
         apiUrl += `&title=${encodeURIComponent(title)}`;
       }
