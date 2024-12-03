@@ -5,6 +5,8 @@ import './Gallery.css';
 import { useSnackbar } from 'notistack';
 import { useNavigate } from 'react-router-dom';
 import debounce from 'lodash.debounce';
+import NavButton from './navbutton.jsx';
+import './home.css'; // Import your CSS file
 
 function Gallery() {
   const [images, setImages] = useState([]);
@@ -14,6 +16,7 @@ function Gallery() {
   const [page, setPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
   const { enqueueSnackbar } = useSnackbar();
+  const [navBarOpen, setNavBarOpen] = useState(false);
   const navigate = useNavigate();
 
   const limit = 10; // Images per page
@@ -79,7 +82,7 @@ function Gallery() {
   };
 
   return (
-    <div className="gallery-container">
+    <div className="gallery-container" data-nav={navBarOpen.toString()}>
       <h2>Community Gallery</h2>
 
       {/* Search Form */}
@@ -150,6 +153,7 @@ function Gallery() {
       <button onClick={handleGoBack} className="go-back-button">
         Go Back
       </button>
+      <NavButton classname="nav-section" setNavBarOpen={setNavBarOpen} navBarOpen={navBarOpen}/>
     </div>
   );
 }
