@@ -12,15 +12,18 @@
   gap: 20px;
   margin-top: 20px;
   transition: transform 700ms cubic-bezier(.13, .53, .38, .97);
-  overflow: hidden;
+  overflow: visible; /* Ensure items are not clipped */
   position: relative;
   transform: translateY(0%);
   z-index: 2;
+  height: auto; /* Let grid expand naturally */
 }
 
+/*
 div[data-nav="true"] .gallery-grid {
   transform: translateY(-50%);
 }
+*/
 
 .gallery-item {
   border: 1px solid #ddd;
@@ -58,4 +61,79 @@ div[data-nav="true"] .gallery-grid {
   display: block;
   font-size: 0.9em;
   color: #888;
+}
+
+/* client/src/components/Gallery.css */
+
+/* Spinner Styles */
+.spinner {
+  border: 4px solid rgba(0, 0, 0, 0.1);
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  border-left-color: #09f;
+  animation: spin 1s ease infinite;
+  margin-right: 8px; /* Space between spinner and text */
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/* Centering the Search Form */
+.search-form {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 10px; /* Space between elements */
+  margin-bottom: 20px; /* Space below the form */
+}
+
+/* Optional: Style Inputs and Button for Better Appearance */
+.search-input {
+  padding: 10px;
+  font-size: 1em;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  width: 200px; /* Adjust as needed */
+}
+
+/* Search Button */
+.search-button {
+  display: inline-flex; /* Use inline-flex to prevent block-level rendering issues */
+  justify-content: center;
+  align-items: center;
+  padding: 10px 20px;
+  font-size: 1em;
+  background-color: #09f;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  width: 150px; /* Fixed width */
+  height: 48px; /* Fixed height */
+  position: relative; /* Ensure spinner is aligned inside */
+}
+
+.search-button:hover {
+  background-color: #0077cc;
+}
+
+.search-button:disabled {
+  background-color: #6c757d;
+  cursor: not-allowed;
+}
+
+/* Spinner inside the button */
+.spinner {
+  width: 20px; /* Smaller spinner for button */
+  height: 20px;
+  border: 4px solid rgba(0, 0, 0, 0.1);
+  border-left-color: #fff;
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+  margin: 0; /* Remove unnecessary margin */
 }

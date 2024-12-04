@@ -19,7 +19,7 @@ function Gallery() {
   const [navBarOpen, setNavBarOpen] = useState(false);
   const navigate = useNavigate();
 
-  const limit = 10; // Images per page
+  const limit = 14; // Images per page
 
   const fetchImages = async (title = '', uploader = '', pageNumber = 1) => {
     setIsLoading(true);
@@ -53,6 +53,7 @@ function Gallery() {
 
   useEffect(() => {
     fetchImages();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const handleSearch = (e) => {
@@ -62,7 +63,7 @@ function Gallery() {
   };
 
   const handleNextPage = () => {
-    if (page < totalPages) {
+    if (page < totalPages && !isLoading) {
       const nextPage = page + 1;
       setPage(nextPage);
       fetchImages(searchTitle, searchUploader, nextPage);
@@ -70,7 +71,7 @@ function Gallery() {
   };
 
   const handlePreviousPage = () => {
-    if (page > 1) {
+    if (page > 1 && !isLoading) {
       const prevPage = page - 1;
       setPage(prevPage);
       fetchImages(searchTitle, searchUploader, prevPage);
@@ -83,6 +84,9 @@ function Gallery() {
 
   return (
     <div className="gallery-container" data-nav={navBarOpen.toString()}>
+      {/* Navbar Positioned at the Top */}
+      <NavButton classname="nav-section" setNavBarOpen={setNavBarOpen} navBarOpen={navBarOpen} />
+
       <h2>Community Gallery</h2>
 
       {/* Search Form */}
@@ -106,10 +110,11 @@ function Gallery() {
           />
         </div>
         <button type="submit" className="search-button" disabled={isLoading}>
-          {isLoading ? 'Searching...' : 'Search'}
+            {isLoading && <div className="spinner" aria-hidden="true"></div>}
+            {isLoading ? '' : 'Search'}
         </button>
-      </form>
 
+      </form>
       {/* Gallery Grid */}
       <div className="gallery-grid">
         {images.length > 0 ? (
@@ -130,7 +135,7 @@ function Gallery() {
             </div>
           ))
         ) : (
-          <p>No images found.</p>
+          !isLoading && <p>No images found.</p>
         )}
       </div>
 
@@ -153,7 +158,6 @@ function Gallery() {
       <button onClick={handleGoBack} className="go-back-button">
         Go Back
       </button>
-      <NavButton classname="nav-section" setNavBarOpen={setNavBarOpen} navBarOpen={navBarOpen}/>
     </div>
   );
 }
